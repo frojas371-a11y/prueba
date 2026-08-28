@@ -57,10 +57,14 @@ def H_composite(phi, g, theta=np.pi / 2):
 
 
 def rho_composite(beta, phi, g, theta=np.pi / 2):
+    """Construye rho via diagonalizacion exacta (estable para beta grande,
+    a diferencia de expm(-beta H) que desborda numericamente a T->0)."""
     H = H_composite(phi, g, theta)
-    unnorm = expm(-beta * H)
-    Z = np.trace(unnorm).real
-    return (unnorm / Z).astype(complex), Z
+    evals, evecs = np.linalg.eigh(H)
+    shifted = np.exp(-beta * (evals - evals.min()))
+    w = shifted / shifted.sum()
+    rho = (evecs * w) @ evecs.conj().T
+    return rho.astype(complex), shifted.sum()
 
 
 def partial_trace(rho4, keep):
@@ -69,6 +73,36 @@ def partial_trace(rho4, keep):
     if keep == 1:
         return np.einsum('ikjk->ij', rho4)
     return np.einsum('kikj->ij', rho4)
+
+
+def optimal_link_exact(rho_k, rho_next):
+    """Link optimo de Uhlmann de forma cerrada (sin optimizador), via la
+    descomposicion polar de C=sqrt(rho_k) sqrt(rho_next): si C=U~ P (U~
+    unitaria, P>=0), el V que maximiza Re<<w_k|(I⊗V)|w_{k+1}>> es V=U~*.
+    Generaliza sin cambios a cualquier dimension (2 para 1 qubit, 4 para
+    el sistema compuesto de Fig. 5)."""
+    from scipy.linalg import sqrtm
+    C = sqrtm(rho_k) @ sqrtm(rho_next)
+    Us, _, Wh = np.linalg.svd(C)
+    return (Us @ Wh).conj()
+
+
+def uhlmann_loop_exact(rho_fn, N=24):
+    """Igual que uhlmann_loop_generic pero resolviendo cada link de forma
+    cerrada (SVD) en vez de optimizar -- exacto y mucho mas rapido, util
+    para barridos 2D como la Fig. 5 del paper."""
+    phis = np.linspace(0, 2 * np.pi, N + 1)
+    rhos = [rho_fn(p) for p in phis]
+    dim = rhos[0].shape[0]
+    Idim = np.eye(dim, dtype=complex)
+    psi = [canonical_purification(r) for r in rhos]
+    W = np.eye(dim, dtype=complex)
+    for k in range(N):
+        L = optimal_link_exact(rhos[k], rhos[k + 1])
+        W = W @ L
+    psi_final = np.kron(W.T, Idim) @ psi[-1]
+    X, Y = hadamard_test_complex(psi[0], psi_final)
+    return X + 1j * Y
 
 
 def uhlmann_loop_generic(rho_fn, beta, N=24, eta=20.0):
@@ -148,8 +182,51 @@ def make_figure(outpath, beta=3.0, g_max=6.0, n_points=40, N=24):
     print("max |Gvar2-Gth2| =", np.max(np.abs(Gvar2 - Gth2)))
 
 
+def make_fig5_paper(outpath, g_max=1.6, T_max=1.0, n_g=90, n_T=90, N=24):
+    """Reproduce la Fig. 5 del paper: mapa de densidad de Phi^AB(g,T) en
+    theta=pi/2, usando el link optimo exacto (SVD), sin optimizador."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    g_vals = np.linspace(1e-3, g_max, n_g)
+    T_vals = np.linspace(1e-3, T_max, n_T)
+    Phi = np.zeros((n_T, n_g))
+
+    for iT, T in enumerate(T_vals):
+        beta = 1.0 / T
+        for ig, g in enumerate(g_vals):
+            def rfn(phi, beta=beta, g=g):
+                r, _ = rho_composite(beta, phi, g)
+                return r
+            z = uhlmann_loop_exact(rfn, N=N)
+            # theta=pi/2 => Phi es exactamente 0 o pi (mod 2pi): +pi y -pi
+            # son la MISMA fase, así que se pliegan con abs() para evitar
+            # el moteado numérico de atan2 cerca de Im(z)~0.
+            Phi[iT, ig] = np.abs(np.arctan2(z.imag, z.real)) / np.pi
+
+    fig, ax = plt.subplots(figsize=(5.6, 4.6))
+    im = ax.pcolormesh(g_vals, T_vals, Phi, cmap="Blues", vmin=0, vmax=1, shading="auto")
+    fig.colorbar(im, ax=ax, label=r"$\Phi^{AB}/\pi$")
+    ax.set_xlabel("g")
+    ax.set_ylabel("T")
+    ax.set_title(r"Fig. 5 reproducida: $\Phi^{AB}(g,T)$ en $\theta=\pi/2$")
+    fig.tight_layout()
+    os.makedirs(os.path.dirname(outpath), exist_ok=True)
+    fig.savefig(outpath, dpi=160)
+    plt.close(fig)
+
+    Tc_g0 = 1.0 / np.arccosh(2.0)
+    print("T_c teorico en g=0 (=1/ln(2+sqrt3)) =", Tc_g0)
+    return g_vals, T_vals, Phi
+
+
 if __name__ == "__main__":
-    outpath = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            "figuras", "fig5_doble_transicion.png")
-    make_figure(outpath, beta=6.0, g_max=3.0, n_points=48, N=24)
-    print("Figura guardada en", outpath)
+    figdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figuras")
+
+    make_figure(os.path.join(figdir, "fig11_subsistemaB_doble_transicion.png"),
+                beta=6.0, g_max=3.0, n_points=48, N=24)
+
+    make_fig5_paper(os.path.join(figdir, "fig5_PhiAB_g_T.png"),
+                     g_max=1.6, T_max=1.0, n_g=90, n_T=90, N=24)
+    print("Figuras guardadas en", figdir)
