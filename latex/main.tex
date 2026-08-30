@@ -50,20 +50,36 @@ $[S,\dot S]=i\{\rho,\Lambda\}$, which yields the compact statement that
 parallel transport renormalizes the off-diagonal generator by exactly the
 concurrence, $(G+\Lambda)_{\rm od}=C\,G_{\rm od}$, and hence
 $\Phi_U=\Arg[(-1)^\omega\cos\pi b-i\,\omega(1-2p)b^{-1}\sin\pi b]$ with
-$b=\omega\sqrt{1+C^2-4p(1-p)}$. The nodal analysis then gives a finite,
-equally spaced set: each photon-addition separation $\Delta$ supports exactly
+$b=\omega\sqrt{1+C^2-4p(1-p)}$. We compute the concurrence of the entangled
+PACS in closed form, $C=2\mu\nu N_1N_2/\mathcal N^2$, obtained from
+$C=2|\det M|$ with the branch overlaps cancelling identically; the coherent
+amplitude thus acts as a continuous knob taking the entanglement from maximal
+(orthogonal Fock branches at $\alpha\to0$) to zero (parallel branches at large
+$\alpha$). Expressing the holonomy through the concurrence gives two clean
+statements: in the balanced symmetric family $p=C/2$ exactly, so
+$b=\Delta\sqrt{C^2+(1-C)^2}$ and $\Phi_U$ is a pure function of $C$; while on
+the locus $p=1/2$ where the singularities live, $b=\Delta C$ and $Z_U$ becomes
+real, reducing $\Phi_U$ to a $\mathbb{Z}_2$ index valued in $\{0,\pi\}$. The
+nodal condition is then that the effective winding $\omega_{\rm eff}=\Delta C$
+cross a half-integer, which quantizes the concurrence to a finite, equally
+spaced ladder: each photon-addition separation $\Delta$ supports exactly
 $\Delta$ isolated Uhlmann singularities at $C_k=(2k+1)/2\Delta$,
-$k=0,\dots,\Delta-1$, all bounded by a critical amplitude $\alpha_g$ defined by
+$k=0,\dots,\Delta-1$, symmetric about $C=1/2$, shared by both subsystems and
+all bounded by a critical amplitude $\alpha_g$ defined by
 $|g_{mn}(\alpha_g)|^2=1/2$. We further explain why the two subsystems are
 \emph{not} Uhlmann-symmetric despite sharing a concurrence: Schmidt
 isospectrality fixes the length of each reduced Bloch vector but not its
 orientation relative to that mode's own logical axis, so the local populations
 $p_A,p_B$ differ whenever $\beta\neq\alpha$; in the crossed family the winding
 numbers differ in sign instead, producing an exact antisymmetry
-$\Phi_U^B=-\Phi_U^A$. Every closed form is validated against independent
+$\Phi_U^B=-\Phi_U^A$. In balanced form these statements sharpen into
+$\sqrt{p_Ap_B}=C/2$: the concurrence fixes only the geometric mean of the two
+local populations, while their ratio $\eta=\sqrt{p_A/p_B}$ is free --- and the
+physical range of $\eta$ pinches to $\{1\}$ as $C\to1$, so maximal entanglement
+enforces symmetry. Every closed form is validated against independent
 numerics: direct summation in a truncated two-mode Fock space for the Berry
 sector, and two connection-free holonomy algorithms for the Uhlmann sector.
-A fully commented Jupyter notebook reproduces all eleven figures and both
+A fully commented Jupyter notebook reproduces all fourteen figures and both
 tables.
 \end{abstract}
 
@@ -132,6 +148,13 @@ analysis is rebuilt on this basis.
       shared but the local populations are not, with the symmetry locus
       $\beta=\alpha$ and an exact antisymmetry in the crossed family
       (Sec.~\ref{sec:asymmetry}, Figs.~\ref{fig:f7}, \ref{fig:f11}).
+\item The concurrence of the entangled PACS in closed form and its limits
+      (Sec.~\ref{sec:concurrence}, Fig.~\ref{fig:f12}); the Uhlmann phase
+      written through the concurrence --- a pure function of $C$ in the
+      balanced symmetric family, a $\mathbb{Z}_2$ index on $p=1/2$
+      (Sec.~\ref{sec:uhlmann-vs-C}, Figs.~\ref{fig:f13}--\ref{fig:f14}) ---
+      and the resulting quantization of the concurrence at the singular points
+      (Sec.~\ref{sec:quantization}).
 \item A complete independent validation layer and a reproducible notebook
       (Sec.~\ref{sec:numerics}).
 \end{enumerate}
@@ -293,6 +316,70 @@ $\chi$ of Eqs.~\eqref{eq:correlated} exposes it as an explicit
 $2\pi$-periodic modulation, Fig.~\ref{fig:f3}.
 
 % =========================================================================
+\section{Concurrence of the entangled PACS}
+\label{sec:concurrence}
+% =========================================================================
+
+Because the concurrence controls both the Berry phase (through
+Eq.~\eqref{eq:berry-vs-C}) and the entire Uhlmann sector below, we derive it
+explicitly.
+
+\paragraph{Step 1: logical basis.} Inverting Eq.~\eqref{eq:gram-schmidt},
+\begin{equation}
+\ket{\alpha,n}=g_\alpha\ket{0_A}+N_1\ket{1_A},\qquad
+\ket{\beta,n}=h_\beta\ket{0_B}+N_2\ket{1_B},
+\end{equation}
+with $N_1=\sqrt{1-g_\alpha^2}$, $N_2=\sqrt{1-h_\beta^2}$.
+
+\paragraph{Step 2: coefficient matrix.} Substituting into
+Eq.~\eqref{eq:correlated} at $\chi=0$,
+\begin{equation}
+\ket{\Phi}=\frac{1}{\mathcal N}\Big[(\mu+\nu g_\alpha h_\beta)\ket{0_A0_B}
++\nu g_\alpha N_2\ket{0_A1_B}+\nu N_1h_\beta\ket{1_A0_B}
++\nu N_1N_2\ket{1_A1_B}\Big],
+\end{equation}
+i.e.\ $\ket{\Phi}=\sum_{ij}M_{ij}\ket{i_Aj_B}$ with
+\begin{equation}
+M=\frac{1}{\mathcal N}
+\begin{pmatrix}\mu+\nu g_\alpha h_\beta & \nu g_\alpha N_2\\[2pt]
+\nu N_1h_\beta & \nu N_1N_2\end{pmatrix}.
+\end{equation}
+
+\paragraph{Step 3: concurrence.} For a pure two-qubit state $C=2|\det M|$, and
+the overlap terms cancel identically:
+\begin{equation}
+\det M=\frac{\nu N_1N_2}{\mathcal N^2}
+\big[\mu+\nu g_\alpha h_\beta-\nu g_\alpha h_\beta\big]
+=\frac{\mu\nu N_1N_2}{\mathcal N^2} ,
+\end{equation}
+so that
+\begin{equation}
+\boxed{\;C=\frac{2\mu\nu N_1N_2}{\mathcal N^2}
+=\frac{2\mu\nu\sqrt{(1-g_\alpha^2)(1-h_\beta^2)}}
+{1+2\mu\nu\,g_\alpha h_\beta}\;}
+\label{eq:concurrence}
+\end{equation}
+consistent with $\det\rho_A=\det\rho_B=|\det M|^2=(C/2)^2$,
+Eq.~\eqref{eq:det}. Substituting the closed-form overlap \eqref{eq:overlap}
+renders $C$ an explicit function of $(\mu,\alpha,\beta;m,n)$ alone.
+
+\paragraph{Limits.} The overlap controls everything (Fig.~\ref{fig:f12}):
+\begin{itemize}[nosep]
+\item $\alpha,\beta\to0$: $g\to0$, since the PACS degenerate into the Fock
+      states $\ket{m},\ket{n}$, which \emph{are} orthogonal. Then
+      $C\to2\mu\nu$, maximal for the given weights; balanced gives $C=1$.
+\item $\alpha,\beta\to\infty$: $g\to1$, the two branches become parallel, and
+      $C\to0$: a product state.
+\end{itemize}
+The coherent amplitude is thus a continuous knob taking the entanglement from
+maximal to zero, with nonorthogonality the precise mechanism that degrades it.
+In the balanced symmetric family Eq.~\eqref{eq:concurrence} collapses to
+\begin{equation}
+C=\frac{1-q}{1+q},\qquad q=|g_{mn}(\alpha)|^2 .
+\label{eq:C-sym}
+\end{equation}
+
+% =========================================================================
 \section{Uhlmann holonomy of the reduced states}
 \label{sec:uhlmann}
 % =========================================================================
@@ -427,6 +514,124 @@ representative pairs, each verified to satisfy $p=1/2$, $|b|=k+1/2$ and
 $|Z_U|\lesssim10^{-14}$ simultaneously.
 
 % =========================================================================
+\section{The Uhlmann phase as a function of the concurrence}
+\label{sec:uhlmann-vs-C}
+% =========================================================================
+
+Equation~\eqref{eq:phiU} mixes the concurrence with the population. We now
+identify the loci on which $\Phi_U$ becomes a function of $C$ \emph{alone}.
+
+\subsection{$(C,\eta)$ coordinates: what entanglement fixes and what it does not}
+
+In the balanced correlated family ($\mu=\nu=1/\sqrt2$) an exact identity ties
+both subsystems to the shared concurrence:
+\begin{equation}
+\boxed{\;\sqrt{p_A\,p_B}=\frac{C}{2}\;}
+\label{eq:geometric-mean}
+\end{equation}
+Introducing the \emph{local asymmetry}
+\begin{equation}
+\eta\equiv\sqrt{\frac{p_A}{p_B}}=\sqrt{\frac{1-g_\alpha^2}{1-h_\beta^2}},
+\qquad
+p_A=\frac{C}{2}\eta,\qquad p_B=\frac{C}{2\eta} ,
+\label{eq:eta}
+\end{equation}
+separates the two roles cleanly: \emph{the concurrence fixes the geometric mean
+of the two local populations, while $\eta$ is the local degree of freedom that
+entanglement leaves free}. The $A\leftrightarrow B$ symmetry of
+Sec.~\ref{sec:asymmetry} is exactly $\eta=1$, i.e.\ $\beta=\alpha$.
+
+\paragraph{Physical region.} Requiring $p(1-p)\ge\det\rho=C^2/4$ on both sides
+gives $C\eta^2-2\eta+C\le0$, i.e.
+\begin{equation}
+\eta\in\left[\frac{1-r}{C},\ \frac{1+r}{C}\right],\qquad r=\sqrt{1-C^2},
+\label{eq:eta-range}
+\end{equation}
+an interval symmetric under $\eta\to1/\eta$ (the product of its endpoints is
+exactly~1). It narrows as $C$ grows, and
+\begin{equation}
+\boxed{\;C\to1\ \Longrightarrow\ \eta\to1\;}
+\end{equation}
+\emph{maximal entanglement forces the two subsystems to be symmetric}: at
+$C=1$ one necessarily has $p_A=p_B=1/2$, hence $\Phi_U^A=\Phi_U^B$ (and in
+fact $b=\Delta$, an integer, so $\Phi_U=0$). Asymmetry is a luxury only
+partial entanglement can afford. See Fig.~\ref{fig:f14}.
+
+\subsection{Balanced symmetric family: a pure function of $C$}
+
+With $\beta=\alpha$ and $\mu=\nu$ one has $\eta=1$ and therefore $p=C/2$
+exactly, so $1+C^2-4p(1-p)=C^2+(1-C)^2$ and
+\begin{equation}
+\boxed{\;b=\Delta\sqrt{C^2+(1-C)^2},\qquad
+\Phi_U=\Arg\Big[(-1)^\Delta\cos(\pi b)
+-i\frac{\Delta(1-C)}{b}\sin(\pi b)\Big]\;}
+\label{eq:phiU-of-C}
+\end{equation}
+a function of $C$ and $\Delta$ \emph{only}, plotted in Fig.~\ref{fig:f13}(a).
+Its range is $b\in[\Delta/\sqrt2,\,\Delta]$, minimal at $C=1/2$ and equal to
+$\Delta$ at both endpoints $C\to0$ and $C\to1$.
+
+\subsection{On $p=1/2$: a $\mathbb{Z}_2$ index}
+
+On the locus where the nodes live the imaginary part of $Z_U$ vanishes
+identically (it carries the factor $1-2p$) and $b=\Delta C$, so
+\begin{equation}
+Z_U=(-1)^{\Delta}\cos(\pi\Delta C)\in\mathbb R
+\qquad\Longrightarrow\qquad
+\boxed{\;\Phi_U\in\{0,\pi\}\;}
+\label{eq:Z2}
+\end{equation}
+The Uhlmann phase ceases to be continuous and becomes a $\mathbb{Z}_2$ index
+determined by the concurrence alone: $0$ where
+$(-1)^\Delta\cos(\pi\Delta C)>0$ and $\pi$ where it is negative. The nodes are
+precisely the domain walls between the two values,
+Fig.~\ref{fig:f13}(c).
+
+% =========================================================================
+\section{Quantization of the concurrence at the singular points}
+\label{sec:quantization}
+% =========================================================================
+
+On $p=1/2$ the parameter $b=\Delta C$ acts as an \emph{effective winding
+number} that the concurrence tunes continuously,
+\begin{equation}
+\omega_{\rm eff}\equiv b\big|_{p=1/2}=\Delta\,C
+\quad\text{sweeping }[0,\Delta]\text{ as }C\in[0,1],
+\end{equation}
+and the nodal condition $|b|=k+\frac12$ is the statement that this effective
+winding crosses a \emph{half-integer}:
+\begin{equation}
+\boxed{\;\Delta\,C_k=k+\tfrac12
+\qquad\Longleftrightarrow\qquad
+C_k=\frac{2k+1}{2\Delta},\qquad k=0,1,\dots,\Delta-1\;}
+\label{eq:quantization}
+\end{equation}
+Five consequences follow immediately.
+
+\begin{enumerate}[label=(\arabic*),nosep]
+\item \textbf{Count.} Since $C\le1$ only $k\le\Delta-1$ fits: there are
+      \emph{exactly $\Delta$} singularities. The photon-addition separation
+      $\Delta=n-m$ literally counts the singular points.
+\item \textbf{Uniform spacing.} $C_{k+1}-C_k=1/\Delta$: the singular
+      concurrences are equidistant, being the \emph{odd} multiples of
+      $1/2\Delta$.
+\item \textbf{Reflection symmetry.} $C_k+C_{\Delta-1-k}=1$, so the ladder is
+      symmetric about $C=1/2$.
+\item \textbf{$\mathbb{Z}_2$ jumps.} By Eq.~\eqref{eq:Z2}, crossing each $C_k$
+      flips $\Phi_U$ between $0$ and $\pi$; there are exactly $\Delta$ flips
+      between $C=0$ and $C=1$.
+\item \textbf{Shared by both subsystems.} Only $|\omega_s|=\Delta$ enters and
+      the concurrence is shared, so $A$ and $B$ have the \emph{same} ladder
+      $\{C_k\}$ --- though not the same coordinates $(\mu,\alpha)$, as
+      Fig.~\ref{fig:f8} shows.
+\end{enumerate}
+
+Translated back to parameter space, on $p=1/2$ the symmetric family gives
+$C=1-2q$, so each $C_k$ fixes an overlap $q_k=(1-C_k)/2$ and with it an
+amplitude $\alpha_k$; since $C_k\ge1/(2\Delta)>0$ one always has $q_k<1/2$ and
+hence $\alpha_k<\alpha_g$, recovering the bound of Sec.~\ref{sec:nodal}.
+
+% =========================================================================
 \section{Why the two subsystems are not Uhlmann-symmetric}
 \label{sec:asymmetry}
 % =========================================================================
@@ -542,6 +747,10 @@ $\Phi_U$, Eq.~\eqref{eq:phiU} & Transport ODE & $2\times10^{-6}$\\
 Tilt identity, Eq.~\eqref{eq:b-tilt} & Eq.~\eqref{eq:phiU} & $2\times10^{-16}$\\
 Nodes $C_k$, Eq.~\eqref{eq:Ck} & $|Z_U|$ at the node & $10^{-14}$\\
 Antisymmetry, Eq.~\eqref{eq:antisym} & Closed form & $0$ (exact)\\
+$C=2\mu\nu N_1N_2/\mathcal N^2$, Eq.~\eqref{eq:concurrence} & $2|\det M|$ and Fock & $10^{-16}$\\
+$\sqrt{p_Ap_B}=C/2$, Eq.~\eqref{eq:geometric-mean} & Closed forms & $10^{-16}$\\
+$p=C/2$ and Eq.~\eqref{eq:phiU-of-C} (balanced sym.) & Eq.~\eqref{eq:phiU} & $2\times10^{-16}$\\
+$\mathbb{Z}_2$ reduction on $p=1/2$, Eq.~\eqref{eq:Z2} & $\mathrm{Im}\,Z_U$ & $0$ (exact)\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -658,6 +867,42 @@ Uhlmann phases track those populations. (c) Map of $\Phi_U^A-\Phi_U^B$ in the
 $(\alpha,\beta)$ plane: the symmetry locus is exactly the diagonal
 $\alpha=\beta$, where the two local overlaps coincide.}
 \label{fig:f11}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig12_concurrence_pacs.pdf}
+\caption{Concurrence of the entangled PACS, Eq.~\eqref{eq:concurrence}.
+(a) Balanced symmetric family: $C=(1-q)/(1+q)$ decreases monotonically from
+$1$ at $\alpha\to0$ (where the PACS reduce to orthogonal Fock states) towards
+$0$ at large $\alpha$ (parallel branches). Larger $\Delta$ keeps the branches
+distinguishable longer. (b) $C$ over the $(\mu,\alpha)$ plane with contours.
+(c) Unequal amplitudes: fixing $\beta$ caps the attainable concurrence, since
+$C$ carries the factor $\sqrt{(1-g_\alpha^2)(1-h_\beta^2)}$.}
+\label{fig:f12}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig13_uhlmann_vs_concurrence.pdf}
+\caption{Uhlmann phase as a function of the concurrence.
+(a) In the balanced symmetric family $p=C/2$, so $\Phi_U$ is a pure function of
+$C$ through $b=\Delta\sqrt{C^2+(1-C)^2}$, Eq.~\eqref{eq:phiU-of-C}; it returns
+to $0$ at both $C=0$ and $C=1$. (b) $b$ versus $C$ on the two loci, with the
+half-integer levels dotted: on $p=1/2$ the line $b=\Delta C$ crosses them
+exactly at the nodal concurrences (gold). The balanced curve may also cross a
+half-integer, but those are not nodes because $p\neq1/2$ leaves
+$\mathrm{Im}\,Z_U\neq0$. (c) On $p=1/2$ the phase is the $\mathbb{Z}_2$
+staircase of Eq.~\eqref{eq:Z2}, flipping between $0$ and $\pi$ exactly at the
+$\Delta$ nodal concurrences (curves offset vertically for visibility).}
+\label{fig:f13}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig14_C_eta_plane.pdf}
+\caption{Concurrence and local asymmetry as independent coordinates,
+Eqs.~\eqref{eq:geometric-mean}--\eqref{eq:eta}. (a) The physical region
+\eqref{eq:eta-range} in the $(C,\eta)$ plane; it is symmetric under
+$\eta\to1/\eta$ and pinches to the single point $\eta=1$ as $C\to1$, so maximal
+entanglement enforces $A\leftrightarrow B$ symmetry. (b) $\Phi_U^A$ versus $C$
+at fixed local asymmetry $\eta$. (c) $\Phi_U^A-\Phi_U^B$ over the same plane:
+the asymmetry vanishes identically on the line $\eta=1$.}
+\label{fig:f14}\end{figure}
 
 \begin{table}[htbp]\centering
 \caption{Critical amplitudes $\alpha_g(m,n)$ from $|g_{mn}(\alpha_g)|^2=1/2$.}
