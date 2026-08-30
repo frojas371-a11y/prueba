@@ -66,7 +66,23 @@ $\alpha_g(m,n)$ by root-finding, and reproduce all seven figures and both
 numerical tables of the original work with a fully commented, reproducible
 Python/Jupyter implementation that saves every panel as a publication-ready
 vector PDF.
-A central correction of this edition concerns the second subsystem. Earlier
+This edition carries two corrections of substance. The first concerns the
+Uhlmann connection itself: the sandwich expression
+$\Lambda=\frac{1}{2i}S^{-1}[S,\dot S]S^{-1}$ used previously does not satisfy
+the parallel-transport condition $[S,\dot S]=i\{\rho,\Lambda\}$, whose solution
+carries a denominator $\lambda_j+\lambda_k$ rather than
+$2\sqrt{\lambda_j\lambda_k}$. Correcting it leaves the closed form's functional
+shape intact but replaces its parameter by
+$b=\omega\sqrt{1+C^2-4p(1-p)}$, and thereby changes the nodal structure
+qualitatively: instead of an infinite tower of singularities accumulating at
+vanishing concurrence, each photon-addition separation supports exactly
+$\Delta$ isolated nodes at $C_k=(2k+1)/2\Delta$, $k=0,\dots,\Delta-1$. Both the
+corrected phase and the corrected nodes are confirmed against two independent
+numerical constructions of the holonomy that use no connection formula at all
+--- a discrete polar-decomposition algorithm and direct integration of the
+transport equation --- which agree with each other and with the corrected form
+to $10^{-6}$, and locate genuine zeros of the Uhlmann amplitude to
+$10^{-15}$. The second correction concerns the second subsystem. Earlier
 presentations dismissed $\rho_B$ as carrying zero geometric phase; we show that
 this holds only for a strictly local cycle on $A$, as a consequence of
 no-signalling, and that because $\rho_B$ descends from an \emph{entangled} PACS
@@ -176,8 +192,16 @@ Sec.~\ref{sec:nodal}. The main results of this extended treatment are:
       interference fringes (Sec.~\ref{sec:global-berry});
 \item the closed-form Uhlmann phase of the mixed reduced state and its
       exact nodal singularities, including analytic nodal coordinates
-      $(C_k,\mu_k,\alpha_k)$ and the critical amplitude $\alpha_g(m,n)$ at
-      which the nodal tower accumulates (Secs.~\ref{sec:uhlmann}--\ref{sec:nodal});
+      $(C_k,\mu_k,\alpha_k)$ and the critical amplitude $\alpha_g(m,n)$ that
+      bounds them (Secs.~\ref{sec:uhlmann}--\ref{sec:nodal});
+\item a correction to the Uhlmann connection itself: the sandwich form
+      $\Lambda=\frac{1}{2i}S^{-1}[S,\dot S]S^{-1}$ does not solve the
+      parallel-transport condition $[S,\dot S]=i\{\rho,\Lambda\}$, and
+      replacing it changes the parameter $b$ and turns the nodal set from an
+      infinite accumulating tower into exactly $\Delta$ isolated
+      singularities at $C_k=(2k+1)/2\Delta$; this is verified against two
+      independent numerical constructions of the holonomy
+      (Secs.~\ref{sec:uhlmann}, \ref{sec:nodal}, \ref{sec:numerics});
 \item a full treatment of the \emph{second} subsystem, correcting the earlier
       claim that $\rho_B$ carries no geometric phase: we establish that this is
       an artifact of restricting attention to a strictly local cycle on $A$,
@@ -521,23 +545,62 @@ directly.
 \subsection{Parallel transport and closed form}
 
 For a mixed state $\rho=WW^\dagger$ with amplitude $W=\sqrt\rho\,U$ and $U$
-unitary, Uhlmann's parallel-transport condition is that $W^\dagger\dot W$
-be Hermitian, which translates into an evolution equation for $U$,
+unitary, Uhlmann's parallel-transport condition is that $W^\dagger\dot W$ be
+Hermitian. Writing $S=\sqrt\rho$ and $\dot U=-i\Lambda U$,
 \begin{equation}
-\dot U = -i\Lambda U,\qquad
-\Lambda=\frac{1}{2i}\,S^{-1}[S,\dot S]\,S^{-1},\qquad S=\sqrt\rho .
+W^\dagger\dot W = U^\dagger\big(S\dot S - i\rho\Lambda\big)U ,
+\end{equation}
+and imposing Hermiticity gives the defining equation of the Uhlmann connection,
+\begin{equation}
+\boxed{\;[S,\dot S] \;=\; i\,\{\rho,\Lambda\}\;}
 \label{eq:uhlmann-ode}
 \end{equation}
+an \emph{anticommutator} (Sylvester) equation for $\Lambda$. In the eigenbasis
+of $\rho$ (eigenvalues $\lambda_j$) it is solved elementwise by
+\begin{equation}
+\Lambda_{jk} \;=\; \frac{-i\,[S,\dot S]_{jk}}{\lambda_j+\lambda_k}\, .
+\label{eq:Lambda-correct}
+\end{equation}
+
+\paragraph{A correction to the earlier closed form.}
+The underlying manuscript instead writes
+$\Lambda=\frac{1}{2i}S^{-1}[S,\dot S]S^{-1}$, whose eigenbasis elements carry a
+denominator $2\sqrt{\lambda_j\lambda_k}$ rather than $\lambda_j+\lambda_k$. The
+two agree only when $\lambda_j=\lambda_k$, i.e.\ for the maximally mixed state;
+away from that point the sandwich form does \emph{not} solve
+Eq.~\eqref{eq:uhlmann-ode} and is therefore not the Uhlmann connection. We
+verify this in Sec.~\ref{sec:numerics} against two independent numerical
+constructions of the holonomy that use no connection formula at all. The final
+closed form retains exactly the same functional shape, but with a different
+parameter $b$; the nodal analysis of Sec.~\ref{sec:nodal} changes
+qualitatively as a result.
+
 For the isospectral loop of Eq.~\eqref{eq:isospectral-orbit},
 $\dot S = i[G,S]$ with generator
 \begin{equation}
 G = \frac{\omega}{2}\sigma_z .
 \label{eq:G-def}
 \end{equation}
-In the eigenbasis $\{\ket{u_+},\ket{u_-}\}$ of $\rho_A(0)$ (eigenvalues
-$\lambda_\pm$), the transport connection $\Lambda$ is purely off-diagonal;
-solving the resulting constant-coefficient equation over one period gives
-the holonomy operator
+Then $[S,\dot S]_{jk}=-iG_{jk}(\sqrt{\lambda_j}-\sqrt{\lambda_k})^2$, so
+Eq.~\eqref{eq:Lambda-correct} gives a purely off-diagonal connection
+\begin{equation}
+\Lambda_{jk} = -\,G_{jk}\,\frac{(\sqrt{\lambda_j}-\sqrt{\lambda_k})^2}{\lambda_j+\lambda_k},
+\qquad j\neq k .
+\label{eq:Lambda-explicit}
+\end{equation}
+Because $\Tr\rho=1$ we have $\lambda_j+\lambda_k=1$ for $j\neq k$, and
+$2\sqrt{\lambda_+\lambda_-}=2\sqrt{\det\rho}=C$, so
+$(\sqrt{\lambda_+}-\sqrt{\lambda_-})^2=1-C$ and the connection collapses to the
+remarkably simple statement
+\begin{equation}
+\Lambda_{\rm od} = -(1-C)\,G_{\rm od}
+\qquad\Longrightarrow\qquad
+(G+\Lambda)_{\rm od} = C\,G_{\rm od} :
+\label{eq:GplusLambda}
+\end{equation}
+\emph{the concurrence is exactly the factor by which parallel transport
+renormalizes the off-diagonal part of the generator.} Solving the resulting
+constant-coefficient equation over one period gives the holonomy operator
 \begin{equation}
 U_{\rm hol}(2\pi) = e^{iG2\pi}\,e^{-i(G+\widetilde\Lambda)2\pi},
 \label{eq:holonomy-op}
@@ -552,20 +615,45 @@ Writing
 p\equiv(\rho_A)_{22},\qquad r=\sqrt{1-4\det\rho_A},
 \label{eq:p-r-def}
 \end{equation}
-the closed expression obtained after carrying out the matrix exponentials
-in Eq.~\eqref{eq:holonomy-op} is
+the Bloch vector of $\rho_A(0)$ has $n_z=1-2p$, $n_x=2\sqrt{p(1-p)-\det\rho_A}$
+and $|\vec n|=r$. Decomposing $G$ into components parallel and perpendicular to
+$\vec n$ and applying Eq.~\eqref{eq:GplusLambda} to the perpendicular part only,
+$G+\widetilde\Lambda=\frac12\vec h\cdot\vec\tau$ with
+$h_\parallel=\omega\cos\theta$, $h_\perp=C\,\omega\sin\theta$ and
+$\cos\theta=(1-2p)/r$. Since $e^{iG2\pi}=(-1)^\omega\mathbb 1$ for integer
+$\omega$, carrying out the matrix exponentials in Eq.~\eqref{eq:holonomy-op}
+gives
 \begin{equation}
 \Phi_U = \Arg\left[(-1)^\omega\cos(\pi b) - i\,\frac{\omega(1-2p)}{b}\sin(\pi b)\right],
 \qquad
-b = \omega\sqrt{\frac{p(1-p)}{\det\rho_A}} .
+\boxed{\;b = \omega\sqrt{1+C^2-4p(1-p)}\;}
 \label{eq:phiU-closed}
 \end{equation}
-Since $\det\rho_A=(C/2)^2$, the Uhlmann phase is controlled \emph{jointly}
+where the compact form of $b$ follows from
+$b^2=\omega^2[\cos^2\theta+C^2\sin^2\theta]$ after substituting $r^2=1-C^2$ and
+$\det\rho_A=C^2/4$. The functional form is identical to that of the underlying
+manuscript; the parameter differs, that manuscript having
+$b=\omega\sqrt{p(1-p)/\det\rho_A}$ as a consequence of
+Eq.~\eqref{eq:Lambda-correct} being replaced by the sandwich form. Two limits
+check Eq.~\eqref{eq:phiU-closed}: if $G$ commutes with $\rho_A$ (so $\sin\theta=0$,
+$p\to0,1$) the state does not move and $\Phi_U=0$; and for the maximally mixed
+state the loop is again trivial. The Uhlmann phase is controlled \emph{jointly}
 by the entanglement (through $C$) and by the local population $p$ ---
 unlike the pure-state Berry phase of Eq.~\eqref{eq:berry-vs-C}, which in
-the balanced case depends on the concurrence \emph{alone}. This formula
+the balanced case depends on the concurrence \emph{alone}. The expression
 assumes a full-rank $\rho_A$; the rank-deficient limit $\det\rho_A\to0$
 must be taken separately and is discussed in Sec.~\ref{sec:numerics}.
+
+A useful special case, used throughout Sec.~\ref{sec:nodal}, is the
+population-symmetric point:
+\begin{equation}
+p=\tfrac12
+\qquad\Longrightarrow\qquad
+b=\omega\,C ,
+\label{eq:b-at-half}
+\end{equation}
+so that at $p=1/2$ the parameter $b$ is \emph{proportional} to the concurrence
+(the earlier form gave the reciprocal, $b=\omega/C$).
 
 \subsection{Subsystem $B$ also carries a nonzero Uhlmann holonomy}
 \label{sec:subsystemB}
@@ -733,14 +821,22 @@ nodal condition is therefore
 p=\frac12,\qquad b=k+\frac12,\quad k\in\mathbb Z.
 \label{eq:nodal-condition}
 \end{equation}
-At $p=1/2$, $\det\rho_A=(C/2)^2$ gives $b=\Delta/C$
-(recall $\omega=\Delta$ here), so $b=k+1/2$ fixes the concurrence to the
-discrete tower
+At $p=1/2$, Eq.~\eqref{eq:b-at-half} gives $b=\Delta\,C$ (recall
+$\omega=\Delta$ here), so $b=k+1/2$ fixes the concurrence to the discrete set
 \begin{equation}
-C_k = \frac{2\Delta}{2k+1},\qquad k=\Delta,\Delta+1,\dots
+C_k = \frac{2k+1}{2\Delta},\qquad k=0,1,\dots,\Delta-1 ,
 \label{eq:Ck-def}
 \end{equation}
-(the lower bound $k\ge\Delta$ enforces the physical requirement $C_k\le1$).
+where the upper bound on $k$ enforces the physical requirement $C_k\le1$.
+This is a qualitatively different statement from the one reached with the
+sandwich connection, which gave $C_k=2\Delta/(2k+1)$ with $k\ge\Delta$, i.e.\
+an \emph{infinite} tower accumulating at $C\to0$. With the correct connection
+the nodal set is \textbf{finite}: a given photon-addition separation $\Delta$
+supports \emph{exactly $\Delta$} Uhlmann singularities, at concurrences
+equally spaced by $1/\Delta$ and centred on the interval $(0,1)$. In
+Sec.~\ref{sec:numerics} we confirm directly that $|Z_U|$ vanishes to
+$\sim10^{-15}$ at each $C_k$ of Eq.~\eqref{eq:Ck-def}, and does \emph{not}
+vanish at the values predicted by the earlier formula.
 
 \subsection{Analytic nodal coordinates in the $(\mu,\alpha)$ plane}
 
@@ -762,17 +858,21 @@ Combining Eqs.~\eqref{eq:Ck-def} and \eqref{eq:C-of-q} gives the nodal
 coordinates directly, without ever having to search the full
 two-dimensional phase map numerically:
 \begin{equation}
-q_k = |g_{mn}(\alpha_k)|^2 = \frac12\left(1-\frac{2\Delta}{2k+1}\right),
+q_k = |g_{mn}(\alpha_k)|^2 = \frac12\left(1-\frac{2k+1}{2\Delta}\right),
 \qquad
 \mu_k = \frac{C_k}{\sqrt{1+C_k^2}},
+\qquad k=0,\dots,\Delta-1 ,
 \label{eq:nodal-coords}
 \end{equation}
 and $\alpha_k$ is obtained by numerically solving $|g_{mn}(\alpha_k)|^2=q_k$
 (root-finding is legitimate because $|g_{mn}(\alpha)|^2$ increases
 monotonically with $\alpha$, verified numerically in
-Sec.~\ref{sec:numerics}).
+Sec.~\ref{sec:numerics}). Note that Eqs.~\eqref{eq:mu-nu-of-q} and
+\eqref{eq:C-of-q} are purely \emph{kinematic} --- they follow from the state,
+not from the connection --- and so are unaffected by the correction of
+Sec.~\ref{sec:uhlmann}; only the input $C_k$ changes.
 
-\subsection{Critical amplitude and accumulation of nodes}
+\subsection{Critical amplitude: a bound, not an accumulation point}
 
 The $p=1/2$ curve exists only while $q\le1/2$. Define the critical
 amplitude $\alpha_g(m,n)$ by
@@ -780,17 +880,24 @@ amplitude $\alpha_g(m,n)$ by
 |g_{mn}(\alpha_g)|^2 = \frac12 .
 \label{eq:alphag-def}
 \end{equation}
-Because $|g_{mn}(\alpha)|^2$ is monotonically increasing for the PACS pairs
-studied here, the nodal region is exactly $\alpha\le\alpha_g(m,n)$. As
-$k\to\infty$ in Eq.~\eqref{eq:nodal-coords}, $C_k\to0$, $q_k\to1/2$,
-$\mu_k\to0$ and $\alpha_k\to\alpha_g$: the infinite tower of mathematical
-nodes accumulates at the boundary point $(\mu,\alpha)=(0,\alpha_g)$. The
-dense $2\pi$ phase wrapping visible near this boundary in
+Because $|g_{mn}(\alpha)|^2$ increases monotonically for the PACS pairs studied
+here, the nodal region is exactly $\alpha\le\alpha_g(m,n)$. Since
+$C_k\ge 1/(2\Delta)>0$ for every admissible $k$, Eq.~\eqref{eq:nodal-coords}
+gives $q_k\le\frac12(1-\frac{1}{2\Delta})<\frac12$, so
+\emph{every} node satisfies $\alpha_k<\alpha_g$ strictly:
+$\alpha_g$ remains a genuine boundary for the existence of Uhlmann
+singularities. What it is \emph{not} --- contrary to the conclusion reached
+with the sandwich connection --- is an accumulation point. There are exactly
+$\Delta$ nodes, they are isolated and well separated, and none of them
+approaches $(\mu,\alpha)=(0,\alpha_g)$; the largest is the $k=0$ node, at the
+smallest concurrence $C_0=1/(2\Delta)$.
+
+The dense $2\pi$ phase wrapping visible near the $\mu\to0$ edge in
 Fig.~\ref{fig:fig5} is an ordinary branch-cut effect of $\Arg(\cdot)$ and
-must \emph{not} be mistaken for additional physical singularities: the true
-zeros of $Z_U$ are exactly the isolated points given by
-Eqs.~\eqref{eq:Ck-def}--\eqref{eq:nodal-coords}, reproduced numerically to
-high precision in Table~\ref{tab:table2} below.
+must \emph{not} be mistaken for physical singularities: the true zeros of
+$Z_U$ are exactly the $\Delta$ isolated points given by
+Eqs.~\eqref{eq:Ck-def}--\eqref{eq:nodal-coords}, tabulated in
+Table~\ref{tab:table2} together with the verified value of $|Z_U|$ at each.
 
 % =========================================================================
 \section{Nodal singularities of subsystem $B$}
@@ -804,7 +911,7 @@ of
 \begin{equation}
 Z_U^B=(-1)^{\omega_B}\cos(\pi b_B)-i\,\frac{\omega_B(1-2p_B)}{b_B}\sin(\pi b_B),
 \qquad
-b_B=\omega_B\sqrt{\frac{p_B(1-p_B)}{\det\rho_B}} ,
+b_B=\omega_B\sqrt{1+C^2-4p_B(1-p_B)} ,
 \label{eq:ZUB}
 \end{equation}
 requires both parts to vanish; since $\cos(\pi b_B)=0\Rightarrow\sin(\pi b_B)\neq0$,
@@ -816,19 +923,19 @@ the factor $(1-2p_B)$ must vanish independently, giving
 
 \subsection{The tower of nodal concurrences is the same as for $A$}
 
-At $p_B=1/2$, using the isospectrality \eqref{eq:isospectral-det},
-$|b_B|=|\omega_B|/C=\Delta/C$, so Eq.~\eqref{eq:nodalB-condition} quantizes the
-concurrence to
+At $p_B=1/2$, Eq.~\eqref{eq:b-at-half} gives $|b_B|=|\omega_B|\,C=\Delta\,C$,
+so Eq.~\eqref{eq:nodalB-condition} quantizes the concurrence to
 \begin{equation}
-C_k=\frac{2\Delta}{2k+1},\qquad k=\Delta,\Delta+1,\dots
+C_k=\frac{2k+1}{2\Delta},\qquad k=0,1,\dots,\Delta-1
 \label{eq:CkB}
 \end{equation}
---- \emph{exactly the same tower} as Eq.~\eqref{eq:Ck-def} for $A$. This holds
+--- \emph{exactly the same finite set} as Eq.~\eqref{eq:Ck-def} for $A$. This holds
 in both families, including the crossed one where $\omega_B=-\Delta$, because
 only $|\omega_B|$ enters, and because the concurrence is shared between the two
 subsystems. The quantized entanglement values at which mixed-state phase
 singularities occur are therefore a property of the \emph{pair}, not of either
-subsystem separately.
+subsystem separately: each side carries exactly $\Delta$ Uhlmann
+singularities, at the same $\Delta$ values of the concurrence.
 
 \subsection{The location of the nodes is \emph{not} the same}
 
@@ -858,43 +965,99 @@ $(0,1)$ therefore exists if and only if
 \emph{independently of $\alpha$}. This is a sharp structural contrast with
 subsystem $A$, whose criterion is $\alpha\le\alpha_g$ and which therefore
 carries a horizontal boundary in the $(\mu,\alpha)$ plane. The geometric
-consequence is striking:
-\begin{itemize}[nosep]
-\item the nodes of $A$ \emph{accumulate} at the finite point
-      $(\mu,\alpha)\to(0,\alpha_g)$, as established in Sec.~\ref{sec:nodal};
-\item the nodes of $B$, at fixed $\beta<\alpha_g$, do \emph{not} accumulate at
-      any finite $\alpha$: the curve $p_B=1/2$ crosses the entire plane and
-      $\alpha_k\to\infty$ as $k\to\infty$. The accumulation point of the
-      $B$ tower lies in the $\beta$ direction, which is held fixed here.
-\end{itemize}
-Table~\ref{tab:nodesB} lists the first nodes of both subsystems for a
+consequence is that the $\Delta$ nodes of $A$ all lie \emph{below} $\alpha_g$
+(Sec.~\ref{sec:nodal}), whereas the nodes of $B$ are not bounded by
+$\alpha_g$ at all: the curve $p_B=1/2$ is nearly vertical and crosses the
+entire range of $\alpha$, so at fixed $\beta<\alpha_g$ the $B$ nodes can sit
+far above $\alpha_g$. For $(m,n)=(0,2)$ at $\beta=0.8$, for instance, the
+$k=0$ node of $A$ is at $\alpha=1.906<\alpha_g=2.109$ while that of $B$ is at
+$\alpha=5.394$, more than twice $\alpha_g$. Both subsystems nonetheless carry
+exactly $\Delta$ nodes, at the same $\Delta$ concurrences.
+
+Table~\ref{tab:nodesB} lists the nodes of both subsystems for a
 representative case, and Fig.~\ref{fig:fig9} displays the two phase maps side
 by side. Every entry was verified to satisfy $p=1/2$, $|b|=k+1/2$ and
-$|Z_U|<10^{-12}$ simultaneously.
+$|Z_U|<10^{-13}$ simultaneously.
 
 \begin{table}[htbp]
 \centering
-\caption{First nodal singularities of both subsystems for $(m,n)=(0,2)$
-($\Delta=2$, $\alpha_g=2.1094$) at fixed $\beta=0.8$. The tower of nodal
-concurrences $C_k$ is common to $A$ and $B$; the coordinates are not. Note
-that $\alpha_k^{A}$ converges to $\alpha_g$ while $\alpha_k^{B}$ diverges.}
+\caption{Complete set of nodal singularities of both subsystems for
+$(m,n)=(0,2)$ ($\Delta=2$, $\alpha_g=2.1094$) at fixed $\beta=0.8$. There are
+exactly $\Delta=2$ nodes on each side, at the same two concurrences $C_k$ but
+at different coordinates. Those of $A$ lie below $\alpha_g$; those of $B$ need
+not. Each entry satisfies $p=1/2$ and $|b|=k+1/2$, with $|Z_U|$ vanishing to
+the precision shown.}
 \label{tab:nodesB}
-\begin{tabular}{ccccccc}
+\begin{tabular}{cccccccc}
 \toprule
-& & \multicolumn{2}{c}{subsystem $A$} & \multicolumn{2}{c}{subsystem $B$}\\
-\cmidrule(lr){3-4}\cmidrule(lr){5-6}
-$k$ & $C_k$ & $\mu_k^{A}$ & $\alpha_k^{A}$ & $\mu_k^{B}$ & $\alpha_k^{B}$\\
+& & \multicolumn{3}{c}{subsystem $A$} & \multicolumn{3}{c}{subsystem $B$}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+$k$ & $C_k$ & $\mu_k^{A}$ & $\alpha_k^{A}$ & $|Z_U^A|$
+          & $\mu_k^{B}$ & $\alpha_k^{B}$ & $|Z_U^B|$\\
 \midrule
-2 & 0.8000 & 0.6178 & 0.9117 & 0.6334 & 0.9396\\
-3 & 0.5714 & 0.4474 & 1.4458 & 0.5952 & 1.9406\\
-4 & 0.4444 & 0.3461 & 1.6581 & 0.5801 & 2.7686\\
-5 & 0.3636 & 0.2813 & 1.7714 & 0.5725 & 3.5436\\
-6 & 0.3077 & 0.2367 & 1.8409 & 0.5682 & 4.2936\\
-\midrule
-$\infty$ & $0$ & $0$ & $\alpha_g=2.1094$ & --- & $\to\infty$\\
+0 & 0.2500 & 0.1911 & 1.9057 & $1.1\times10^{-14}$ & 0.5644 & 5.3941 & $2.8\times10^{-15}$\\
+1 & 0.7500 & 0.5830 & 1.0522 & $6.2\times10^{-16}$ & 0.6236 & 1.1362 & $3.5\times10^{-16}$\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{The strictly local cycle: what actually happens to $B$}
+\label{sec:soloA}
+
+It is worth stating precisely what the $A$-only cycle
+$U=e^{-ia_A^\dagger a_A\phi}\otimes I_B$ does to $B$, since two distinct
+objects are easily conflated.
+
+\paragraph{The state of $B$ does not move.}
+By Eq.~\eqref{eq:no-signalling}, $\rho_B(\phi)=\rho_B(0)$ exactly, so the path
+of $\rho_B$ is a \emph{point}, not a loop. Computing its holonomy with the
+polar-decomposition algorithm --- which assumes nothing --- returns
+$U_{\rm hol}=\mathbb 1$ and
+\begin{equation}
+\Phi_U^B=\Arg\Tr[\rho_B\,\mathbb 1]=\Arg(1)=0 ,
+\end{equation}
+verified numerically as $|\Tr[\rho_B U_{\rm hol}]|=1.000000000000$ and
+$\Phi_U^B\sim4\times10^{-19}$. This is unavoidable: Uhlmann holonomy is
+holonomy \emph{along a path in the base}, and here the base path is constant.
+
+\paragraph{The purification amplitude of $B$ does move.}
+Write the global state as $\ket{\Phi}=\sum_{jk}C_{jk}\ket{j}_A\ket{k}_B$. The
+coefficient matrix is literally an amplitude for $\rho_B$: setting
+$W_B=C^{T}$ gives $W_BW_B^\dagger=C^TC^*=\rho_B$. Under the local cycle
+$C\mapsto U_AC$, so
+\begin{equation}
+W_B(\phi)=W_B(0)\,U_A^{T}(\phi) .
+\label{eq:WB-motion}
+\end{equation}
+$\rho_B$ is invariant because $U_A^T$ is unitary, but the amplitude traverses a
+\emph{vertical} loop in the fibre over the fixed point $\rho_B$. Its overlap
+with the initial amplitude is, exactly,
+\begin{equation}
+\boxed{\;\Tr\!\big[W_B^\dagger(0)\,W_B(\phi)\big]
+=\Tr\!\big[\rho_A(0)\,U_A(\phi)\big]\;}
+\label{eq:fibre-overlap}
+\end{equation}
+which follows from $W_B^\dagger(0)W_B(\phi)=C^*C^TU_A^T$ together with
+$C^*C^T=\rho_A^*$ and $\Tr[\rho_A^*U_A^T]=\Tr[U_A\rho_A]$; we verify
+Eq.~\eqref{eq:fibre-overlap} numerically to $1.6\times10^{-16}$. Thus
+\emph{the motion of $B$'s fibre is governed entirely by the reduced state of
+$A$}. Note the formal parallel with $\Phi_U=\Arg\Tr[\rho_A(0)U_{\rm hol}]$:
+here the \emph{physical} unitary appears in place of the holonomy.
+
+This Pancharatnam-type phase is nonzero throughout the cycle and closes at
+$\phi=2\pi$, because $a^\dagger a$ has integer spectrum and
+$U_A(2\pi)=\mathbb 1$ exactly. Within the logical subspace, if one adopts the
+convention of retaining only the $\sigma_z$ part of the generator (discarding
+the scalar factor $e^{-i(m+n)\phi/2}$), the amplitude of $B$ returns multiplied
+by $V^T(2\pi)=(-1)^{\omega}$ --- a $\mathbb Z_2$ residue equal to $-1$ for odd
+$\Delta$, and the same $(-1)^\omega$ that prefixes $Z_U$.
+
+\paragraph{Summary.} Under a strictly local $A$-cycle the Uhlmann phase of $B$
+is zero, and this is a theorem rather than a modelling choice. Entanglement
+manifests itself on the $B$ side not as motion of the state but as motion of
+its purification. A nonzero Uhlmann holonomy for $B$ requires a cycle that
+actually moves $\rho_B$: either $B$'s own cycle or the global two-mode
+evolution of Eq.~\eqref{eq:global-cycle}.
 
 \subsection{Nodal set of the crossed family}
 
@@ -972,7 +1135,9 @@ $g_{mn}(\alpha)$, Eq.~\eqref{eq:g-overlap-corrected} & Fock exact overlap & $<10
 $\kappa_\alpha^{mn}=g\,Q_{mn}$, Eqs.~\eqref{eq:Qmn-def} & Fock exact $\bra{\alpha,m}a^\dagger a\ket{\alpha,n}$ & $<10^{-7}$ \\
 $\Phi_B^{AB}(\mu,\chi)$, Eq.~\eqref{eq:general-berry-formula} & Fock exact bipartite connection & $<10^{-8}$ \\
 $\alpha_g(m,n)$, Eq.~\eqref{eq:alphag-def} & Original manuscript, Table~I & $4.6\times10^{-5}$ \\
-$(C_k,\mu_k,\alpha_k)$, Eq.~\eqref{eq:nodal-coords} & Original manuscript, Table~II & $4.6\times10^{-5}$ \\
+$\Phi_U$ closed form, Eq.~\eqref{eq:phiU-closed} & Discrete polar holonomy & $1.2\times10^{-6}$ \\
+$\Phi_U$ closed form, Eq.~\eqref{eq:phiU-closed} & Parallel-transport ODE & $1.2\times10^{-6}$ \\
+Nodes $C_k=\frac{2k+1}{2\Delta}$, Eq.~\eqref{eq:Ck-def} & $|Z_U|$ at the node (ODE) & $1.6\times10^{-15}$ \\
 $\rho_B$ under a local $A$-cycle, Eq.~\eqref{eq:no-signalling} & Exact two-mode Fock evolution & $2.8\times10^{-16}$ \\
 Isospectrality $\mathrm{spec}\,\rho_A=\mathrm{spec}\,\rho_B$ & Exact two-mode Fock evolution & $6.7\times10^{-16}$ \\
 $p_B$, $C$, $\omega_A$, $\omega_B$, Eqs.~\eqref{eq:pB-correlated}--\eqref{eq:pB-crossed} & Exact two-mode Fock evolution & $7.8\times10^{-16}$ \\
@@ -1046,8 +1211,9 @@ is the analytic condition $p=1/2$, Eq.~\eqref{eq:mu-nu-of-q}; the dotted
 horizontal line marks $\alpha_g$, Eq.~\eqref{eq:alphag-def}; gold circles
 are the exact zeros of the Uhlmann amplitude $Z_U$,
 Eq.~\eqref{eq:nodal-coords}; the lightly shaded region $\alpha>\alpha_g$
-cannot contain such nodes. The nodal points visibly accumulate at
-$(\mu,\alpha)=(0,\alpha_g)$.}
+cannot contain such nodes. With the corrected connection of
+Sec.~\ref{sec:uhlmann} the nodal set is finite --- exactly $\Delta$ points ---
+and does not accumulate anywhere.}
 \label{fig:fig5}
 \end{figure}
 
@@ -1102,11 +1268,11 @@ conditions $p_A=1/2$ and $p_B=1/2$ (Eq.~\eqref{eq:pB-half-curve}); gold circles
 are exact zeros of $Z_U$. Both panels share the same tower of nodal
 concurrences $C_k=2\Delta/(2k+1)$, Eq.~\eqref{eq:CkB}, but their nodal
 topology differs: (a) the $p_A=1/2$ curve terminates at $(\mu,\alpha)=(0,\alpha_g)$
-and the nodes of $A$ accumulate there, with the shaded region $\alpha>\alpha_g$
-excluded; (b) since the existence criterion for $B$ depends on $\beta$ alone
-(Eq.~\eqref{eq:B-existence}), the $p_B=1/2$ curve is nearly vertical, crosses
-the whole range of $\alpha$, and the nodes of $B$ run off to $\alpha\to\infty$
-instead of accumulating. The same entangled state thus exhibits two
+and the $\Delta$ nodes of $A$ all lie below $\alpha_g$, with the shaded region
+$\alpha>\alpha_g$ excluded; (b) since the existence criterion for $B$ depends on
+$\beta$ alone (Eq.~\eqref{eq:B-existence}), the $p_B=1/2$ curve is nearly
+vertical, crosses the whole range of $\alpha$, and the nodes of $B$ are not
+bounded by $\alpha_g$. The same entangled state thus exhibits two
 geometrically distinct singularity structures on its two sides. For
 $\beta=\alpha$ both panels reduce to Fig.~\ref{fig:fig5}.}
 \label{fig:fig9}
@@ -1133,26 +1299,32 @@ $n\backslash m$ & 0 & 1 & 2 & 3 & 4\\
 
 \begin{table}[htbp]
 \centering
-\caption{First nodal singularities for representative pairs, from
-Eqs.~\eqref{eq:Ck-def}--\eqref{eq:nodal-coords}, reproducing the original
-manuscript's Table~II.}
+\caption{Complete set of Uhlmann nodal singularities, from
+Eqs.~\eqref{eq:Ck-def}--\eqref{eq:nodal-coords}. Each photon-addition
+separation $\Delta$ supports exactly $\Delta$ nodes. All satisfy $p=1/2$ and
+$\alpha_k<\alpha_g$; the last column is the numerically evaluated $|Z_U|$,
+confirming a genuine zero.}
 \label{tab:table2}
-\begin{tabular}{cccc}
+\begin{tabular}{cccccccc}
 \toprule
-$(m,n)$ & $k$ & $C_k$ & $\mu_k$ \quad $\alpha_k$ \\
+$(m,n)$ & $\Delta$ & $k$ & $C_k$ & $\mu_k$ & $\alpha_k$ & $\alpha_g$ & $|Z_U|$\\
 \midrule
-$(0,1)$ & 1 & 0.6667 & 0.5547 \quad 0.4472 \\
-        & 2 & 0.4000 & 0.3714 \quad 0.6547 \\
-        & 3 & 0.2857 & 0.2747 \quad 0.7454 \\
-$(0,2)$ & 2 & 0.8000 & 0.6247 \quad 0.8622 \\
-        & 3 & 0.5714 & 0.4961 \quad 1.2098 \\
-        & 4 & 0.4444 & 0.4061 \quad 1.3913 \\
-$(1,2)$ & 1 & 0.6667 & 0.5547 \quad 0.3166 \\
-        & 2 & 0.4000 & 0.3714 \quad 0.4651 \\
-        & 3 & 0.2857 & 0.2747 \quad 0.5311 \\
-$(1,3)$ & 2 & 0.8000 & 0.6247 \quad 0.6605 \\
-        & 3 & 0.5714 & 0.4961 \quad 0.9480 \\
-        & 4 & 0.4444 & 0.4061 \quad 1.1077 \\
+$(0,1)$ & 1 & 0 & 0.5000 & 0.4472 & 0.5774 & 1.0000 & $1.3\times10^{-15}$\\
+\midrule
+$(0,2)$ & 2 & 0 & 0.2500 & 0.2425 & 1.6807 & 2.1094 & $6.1\times10^{-17}$\\
+        &   & 1 & 0.7500 & 0.6000 & 0.9444 & 2.1094 & $1.8\times10^{-16}$\\
+\midrule
+$(0,3)$ & 3 & 0 & 0.1667 & 0.1644 & 2.8433 & 3.2756 & $3.4\times10^{-15}$\\
+        &   & 1 & 0.5000 & 0.4472 & 2.1094 & 3.2756 & $4.8\times10^{-16}$\\
+        &   & 2 & 0.8333 & 0.6402 & 1.3628 & 3.2756 & $1.3\times10^{-13}$\\
+\midrule
+$(1,2)$ & 1 & 0 & 0.5000 & 0.4472 & 0.4095 & 0.7221 & $4.4\times10^{-15}$\\
+\midrule
+$(1,3)$ & 2 & 0 & 0.2500 & 0.2425 & 1.3763 & 1.8000 & $6.1\times10^{-17}$\\
+        &   & 1 & 0.7500 & 0.6000 & 0.7265 & 1.8000 & $1.7\times10^{-14}$\\
+\midrule
+$(2,4)$ & 2 & 0 & 0.2500 & 0.2425 & 1.1867 & 1.5829 & $2.6\times10^{-13}$\\
+        &   & 1 & 0.7500 & 0.6000 & 0.6130 & 1.5829 & $3.5\times10^{-16}$\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1223,10 +1395,10 @@ concurrence does \emph{not} imply a shared singularity structure. The tower of
 nodal concurrences $C_k=2\Delta/(2k+1)$ is common to both sides --- it is a
 property of the entangled pair --- yet the nodes sit at different points of
 parameter space and, in the asymmetric branch-correlated family, are governed
-by different existence criteria: $A$ requires $\alpha\le\alpha_g$ and its nodes
-accumulate at the finite boundary $\alpha_g$, whereas $B$ requires
-$\beta<\alpha_g$ and its nodes escape to $\alpha\to\infty$
-(Fig.~\ref{fig:fig9}). Entanglement fixes \emph{which} concurrences are
+by different existence criteria: $A$ requires $\alpha\le\alpha_g$, which bounds
+all $\Delta$ of its nodes from above, whereas $B$ requires $\beta<\alpha_g$, a
+condition on the \emph{other} amplitude that leaves its nodes free to sit well
+beyond $\alpha_g$ (Fig.~\ref{fig:fig9}). Entanglement fixes \emph{which} concurrences are
 singular; the local overlap geometry of each mode fixes \emph{where} those
 singularities are realized.
 
@@ -1262,25 +1434,28 @@ states. Relative to the original manuscript, this expanded edition:
       Fig.~\ref{fig:fig9}): the same tower $C_k=2\Delta/(2k+1)$ as for $A$,
       but at different locations and with an existence criterion
       $\beta<\alpha_g(m,n)$ that is independent of $\alpha$, so that the
-      nodes of $A$ accumulate at a finite $\alpha_g$ while those of $B$
-      diverge; and proves the exact antisymmetry $\Phi_U^B=-\Phi_U^A$ of the
+      nodes of $A$ are bounded by $\alpha_g$ while those of $B$ are not;
+      and proves the exact antisymmetry $\Phi_U^B=-\Phi_U^A$ of the
       crossed family;
 \item packages every calculation into a fully commented, openly
       reproducible Python/Jupyter implementation that regenerates all
       nine figures and every table and exports them as
       publication-quality vector PDFs.
 \end{enumerate}
-The central nodal result, unchanged in substance from the original work but
-now independently verified --- and, by Sec.~\ref{sec:nodalB}, valid for
-\emph{both} subsystems with $\Delta\to|\omega_s|$ and $p\to p_s$ --- is
+The central nodal result, now derived from the corrected Uhlmann connection,
+independently verified against two connection-free numerical constructions of
+the holonomy, and --- by Sec.~\ref{sec:nodalB} --- valid for \emph{both}
+subsystems with $\Delta\to|\omega_s|$ and $p\to p_s$, is
 \begin{equation}
 p=\frac12,\qquad
-C_k = \frac{2(n-m)}{2k+1},\qquad
+C_k = \frac{2k+1}{2(n-m)},\qquad
 |g_{mn}(\alpha_k)|^2 = \frac{1-C_k}{2},
+\qquad k=0,\dots,\Delta-1 ,
 \label{eq:central-result}
 \end{equation}
-with the $A$-side nodal tower accumulating at the critical amplitude
-$\alpha_g$ defined by $|g_{mn}(\alpha_g)|^2=1/2$. This provides a direct, fully
+so that each photon-addition separation supports exactly $\Delta$ isolated
+Uhlmann singularities, all strictly below the critical amplitude $\alpha_g$
+defined by $|g_{mn}(\alpha_g)|^2=1/2$ but not accumulating at it. This provides a direct, fully
 analytic bridge between photon addition, nonorthogonality, bipartite
 entanglement, and mixed-state quantum holonomy, and establishes PACS as an
 unusually transparent laboratory in which every step of that bridge can be
