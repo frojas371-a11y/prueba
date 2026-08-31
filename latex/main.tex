@@ -513,6 +513,33 @@ accumulation point. Table~\ref{tab:nodes} lists the complete nodal set for
 representative pairs, each verified to satisfy $p=1/2$, $|b|=k+1/2$ and
 $|Z_U|\lesssim10^{-14}$ simultaneously.
 
+\subsection{The same construction for subsystem $B$}
+
+Everything above applies verbatim to $B$ with $p_A\to p_B$ and
+$\omega_A\to\omega_B$; since only $|\omega_s|=\Delta$ enters and the
+concurrence is shared, the ladder \eqref{eq:Ck} is identical on both sides.
+What differs is the locus on which the nodes sit. For $\beta\neq\alpha$ the
+condition $p_B=1/2$ reads, from Eq.~\eqref{eq:pApB} with
+$G\equiv g_{mn}(\alpha)$, $H\equiv h_{mn}(\beta)$,
+\begin{equation}
+2(1-\mu^2)(1-H^2)=1+2\mu\sqrt{1-\mu^2}\,G\,H ,
+\label{eq:pB-half}
+\end{equation}
+to be solved for $\mu$ at each $\alpha$; setting $H=G$ recovers
+Eq.~\eqref{eq:mu-of-q}, as it must. Evaluating the difference of the two sides
+at the endpoints gives $1-2H^2$ at $\mu=0$ and $-1$ at $\mu=1$, so a root in
+$(0,1)$ exists if and only if
+\begin{equation}
+|h_{mn}(\beta)|^2<\tfrac12
+\qquad\Longleftrightarrow\qquad
+\beta<\alpha_g(m,n),
+\label{eq:B-existence}
+\end{equation}
+\emph{independently of $\alpha$}. This is a structural contrast with $A$, whose
+criterion $\alpha\le\alpha_g$ bounds its nodes from above: the $B$ criterion
+constrains the \emph{other} amplitude, leaving its own nodes free to sit well
+beyond $\alpha_g$, as Figs.~\ref{fig:f8} and \ref{fig:f16} show.
+
 % =========================================================================
 \section{The Uhlmann phase as a function of the concurrence}
 \label{sec:uhlmann-vs-C}
@@ -703,6 +730,96 @@ half accumulates a large one. Since complex conjugation does not move zeros,
 the two subsystems also share their nodal set exactly in that family.
 
 % =========================================================================
+\section{A case with many singularities: $\Delta=8$}
+\label{sec:many}
+% =========================================================================
+
+Equation~\eqref{eq:quantization} says the number of singularities is
+\emph{exactly} $\Delta$, so producing many of them is simply a matter of
+raising the photon-addition separation. Take
+\begin{equation}
+(m,n)=(0,8)\qquad\Longrightarrow\qquad\Delta=8 ,
+\end{equation}
+which gives \textbf{eight Uhlmann nodes in $A$ and eight in $B$}, at
+\begin{equation}
+C_k=\tfrac{1}{16},\tfrac{3}{16},\tfrac{5}{16},\tfrac{7}{16},
+\tfrac{9}{16},\tfrac{11}{16},\tfrac{13}{16},\tfrac{15}{16},
+\end{equation}
+equally spaced by $1/8$ and symmetric about $C=1/2$, as
+Eq.~\eqref{eq:quantization} requires. Figure~\ref{fig:f15} shows the
+$\mathbb{Z}_2$ staircase now taking eight steps, the effective winding
+$b=\Delta C$ crossing eight half-integers, and the eight nodes strung along
+the $p=1/2$ curve in the $(\mu,\alpha)$ plane.
+
+\subsection{A numerical remark: Kummer's transformation}
+
+This case demands large amplitudes --- $\alpha_g(0,8)=9.2301$, and the $B$
+nodes reach $\alpha\sim10^2$ --- where the direct form of the overlap
+overflows: $\hyp{n+1}{\Delta+1}{\alpha^2}$ grows like $e^{\alpha^2}$ and
+exceeds double precision already at $\alpha\gtrsim27$. Kummer's transformation
+\begin{equation}
+\hyp{n+1}{\Delta+1}{z}=e^{z}\,\hyp{-m}{\Delta+1}{-z}
+\label{eq:kummer}
+\end{equation}
+removes the problem at its root: since $b-a=-m\le0$, the transformed
+hypergeometric is a \emph{polynomial of degree $m$}, and the exponential
+cancels against the prefactor of Eq.~\eqref{eq:overlap}, leaving
+$e^{-(\alpha-\beta)^2/2}\le1$. The overlap then reads
+\begin{equation}
+\braket{\alpha,m}{\beta,n}=
+\frac{e^{-(\alpha-\beta)^2/2}\,\alpha^{\Delta}\,n!}
+{\Delta!\,\sqrt{m!\,n!\,L_m(-\alpha^2)L_n(-\beta^2)}}\,
+\hyp{-m}{\Delta+1}{-\alpha\beta} ,
+\label{eq:overlap-stable}
+\end{equation}
+numerically stable for \emph{any} amplitude, and the same substitution applies
+to the ratio in $Q_{mn}$, Eq.~\eqref{eq:Qmn}. For $m=0$ the overlap even
+becomes elementary,
+\begin{equation}
+g_{0,n}(\alpha)=\frac{\alpha^{n}}{\sqrt{n!\,L_n(-\alpha^2)}} .
+\end{equation}
+
+\subsection{Where the eight nodes sit}
+
+In the symmetric family $\beta=\alpha$ one has $p_A=p_B$, so the two
+subsystems share the \emph{same} eight nodes, listed in the left half of
+Table~\ref{tab:many}; they occupy $\alpha_k\in[3.54,8.80]$, all below
+$\alpha_g=9.2301$ as Sec.~\ref{sec:nodal} requires. Fixing $\beta\neq\alpha$
+separates the two sets dramatically (Fig.~\ref{fig:f16} and the right half of
+Table~\ref{tab:many}): subsystem $A$ keeps its eight nodes below $\alpha_g$,
+whereas those of $B$ --- whose existence criterion \eqref{eq:B-existence}
+depends on $\beta$ alone --- spread out to $\alpha\approx97$, more than ten
+times $\alpha_g$. The same entangled state, the same ladder $\{C_k\}$, and two
+completely different nodal geometries.
+
+\begin{table}[htbp]\centering
+\caption{The eight Uhlmann nodes of the $\Delta=8$ case, $(m,n)=(0,8)$,
+$\alpha_g=9.2301$. Left: symmetric family $\beta=\alpha$, where $A$ and $B$
+share the nodes. Right: $\beta=4$ fixed, where the two sets separate. Every
+entry satisfies $p=1/2$ and $b=k+\frac12$ with $|Z_U|<5\times10^{-14}$.}
+\label{tab:many}
+\begin{tabular}{ccccccccc}
+\toprule
+& & \multicolumn{2}{c}{$\beta=\alpha$ (shared)}
+& \multicolumn{2}{c}{$\beta=4$: subsystem $A$}
+& \multicolumn{2}{c}{$\beta=4$: subsystem $B$}\\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+$k$ & $C_k$ & $\mu_k$ & $\alpha_k$ & $\mu_k^A$ & $\alpha_k^A$
+& $\mu_k^B$ & $\alpha_k^B$\\
+\midrule
+0 & 0.0625 & 0.0624 & 8.7956 & 0.0458 & 9.1069 & 0.5927 & 96.746\\
+1 & 0.1875 & 0.1843 & 8.0008 & 0.1395 & 8.7765 & 0.5953 & 31.915\\
+2 & 0.3125 & 0.2983 & 7.2786 & 0.2354 & 8.3306 & 0.6004 & 18.734\\
+3 & 0.4375 & 0.4008 & 6.6024 & 0.3327 & 7.7598 & 0.6082 & 12.909\\
+4 & 0.5625 & 0.4903 & 5.9467 & 0.4301 & 7.0452 & 0.6187 & 9.5003\\
+5 & 0.6875 & 0.5665 & 5.2800 & 0.5255 & 6.1489 & 0.6324 & 7.1317\\
+6 & 0.8125 & 0.6306 & 4.5443 & 0.6152 & 4.9767 & 0.6502 & 5.1980\\
+7 & 0.9375 & 0.6839 & 3.5354 & 0.6918 & 3.0569 & 0.6757 & 2.9853\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================================================
 \section{Numerical validation}
 \label{sec:numerics}
 % =========================================================================
@@ -751,6 +868,8 @@ $C=2\mu\nu N_1N_2/\mathcal N^2$, Eq.~\eqref{eq:concurrence} & $2|\det M|$ and Fo
 $\sqrt{p_Ap_B}=C/2$, Eq.~\eqref{eq:geometric-mean} & Closed forms & $10^{-16}$\\
 $p=C/2$ and Eq.~\eqref{eq:phiU-of-C} (balanced sym.) & Eq.~\eqref{eq:phiU} & $2\times10^{-16}$\\
 $\mathbb{Z}_2$ reduction on $p=1/2$, Eq.~\eqref{eq:Z2} & $\mathrm{Im}\,Z_U$ & $0$ (exact)\\
+Stable overlap \eqref{eq:overlap-stable} (Kummer) & Fock, up to $\alpha=60$ & $4\times10^{-15}$\\
+$\Delta=8$ nodes, Table~\ref{tab:many} & $p$, $b$, $|Z_U|$ at each node & $5\times10^{-14}$\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -903,6 +1022,29 @@ entanglement enforces $A\leftrightarrow B$ symmetry. (b) $\Phi_U^A$ versus $C$
 at fixed local asymmetry $\eta$. (c) $\Phi_U^A-\Phi_U^B$ over the same plane:
 the asymmetry vanishes identically on the line $\eta=1$.}
 \label{fig:f14}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig15_many_nodes.pdf}
+\caption{A case with many singularities, $\Delta=n-m=8$. (a) The
+$\mathbb{Z}_2$ staircase of Eq.~\eqref{eq:Z2} now takes $\Delta$ steps;
+curves for $\Delta=4,8,12$ are offset vertically. (b) The effective winding
+$b=\Delta C$ crosses $\Delta=8$ half-integers, one per node (gold, labelled by
+$k$). (c) The eight nodes in the $(\mu,\alpha)$ plane for the symmetric family
+$\beta=\alpha$, strung along the $p=1/2$ curve and all below
+$\alpha_g=9.23$; since $p_A=p_B$ there, these eight points are the nodes of
+\emph{both} subsystems.}
+\label{fig:f15}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig16_many_nodes_AB.pdf}
+\caption{The same $\Delta=8$ case with $\beta=4$ fixed, so that the two
+subsystems separate. Each side still carries exactly eight nodes at the same
+concurrences $C_k$, but at wildly different coordinates: (a) the eight nodes of
+$A$ all lie below $\alpha_g=9.23$ (shaded region excluded); (b) those of $B$,
+bounded only by the criterion \eqref{eq:B-existence} on $\beta$, run out to
+$\alpha\approx97$ --- note the logarithmic $\alpha$ axis. Numerical values in
+Table~\ref{tab:many}.}
+\label{fig:f16}\end{figure}
 
 \begin{table}[htbp]\centering
 \caption{Critical amplitudes $\alpha_g(m,n)$ from $|g_{mn}(\alpha_g)|^2=1/2$.}
