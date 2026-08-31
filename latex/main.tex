@@ -49,7 +49,7 @@ parallel-transport condition in its correct anticommutator form,
 $[S,\dot S]=i\{\rho,\Lambda\}$, which yields the compact statement that
 parallel transport renormalizes the off-diagonal generator by exactly the
 concurrence, $(G+\Lambda)_{\rm od}=C\,G_{\rm od}$, and hence
-$\Phi_U=\Arg[(-1)^\omega\cos\pi b-i\,\omega(1-2p)b^{-1}\sin\pi b]$ with
+$\Phi_U=\Arg\{(-1)^\omega[\cos\pi b-i\,\omega(1-2p)b^{-1}\sin\pi b]\}$ with
 $b=\omega\sqrt{1+C^2-4p(1-p)}$. We compute the concurrence of the entangled
 PACS in closed form, $C=2\mu\nu N_1N_2/\mathcal N^2$, obtained from
 $C=2|\det M|$ with the branch overlaps cancelling identically; the coherent
@@ -76,10 +76,33 @@ $\Phi_U^B=-\Phi_U^A$. In balanced form these statements sharpen into
 $\sqrt{p_Ap_B}=C/2$: the concurrence fixes only the geometric mean of the two
 local populations, while their ratio $\eta=\sqrt{p_A/p_B}$ is free --- and the
 physical range of $\eta$ pinches to $\{1\}$ as $C\to1$, so maximal entanglement
-enforces symmetry. Every closed form is validated against independent
+enforces symmetry. We then compute the \emph{interferometric} (Sj\"oqvist) phase of both
+subsystems and establish its gauge invariance. In the laboratory frame, where
+the cycle is a phase shifter, it collapses to
+$\Phi^{\rm int}_s=\Arg\sum_k\lambda_ke^{2\pi i\nu_k}$ --- the Pancharatnam sum
+of the Berry phases $2\pi\nu_k$ of the Schmidt modes, weighted by their
+populations --- and is invariant, term by term, under both the eigenvector
+rephasing and the residual freedom $U\to Ue^{i\Xi}$, $[\Xi,\rho]=0$, that leaves
+the path of density matrices unchanged. Its modulus is the fringe contrast and
+is a direct function of the concurrence,
+$\mathcal V_s=\sqrt{1-C^2\sin^2 2\pi\delta_s}$, which inverts into a witness:
+\emph{the interference contrast of one mode alone determines the concurrence of
+the global state}, verified to $3\times10^{-14}$. Comparing the two mixed-state
+phases on the same loop isolates their difference to a single statement about
+parallel transport in the eigenbasis of $\rho$: Uhlmann keeps the diagonal part
+of the generator and rescales the off-diagonal part by $C$, while the
+interferometric prescription deletes the diagonal part and keeps the
+off-diagonal part intact. The interpolation $G_{\rm eff}=G_d+sG_{\rm od}$ gives
+$b_s=\omega s$ on $p=1/2$, so all nodes lie on the lines $s=(2k+1)/2\Delta$:
+the Uhlmann phase runs along $s=C$ and meets every one of them, whereas the
+interferometric phase runs along $s=0$ and meets none --- indeed
+$|Z^{\rm int}|\geq\sqrt{1-C^2}>0$, its only singularity being the maximally
+entangled point where the gauge group grows from $U(1)\times U(1)$ to $U(2)$.
+Every closed form is validated against independent
 numerics: direct summation in a truncated two-mode Fock space for the Berry
-sector, and two connection-free holonomy algorithms for the Uhlmann sector.
-A fully commented Jupyter notebook reproduces all fourteen figures and both
+sector, two connection-free holonomy algorithms for the Uhlmann sector, and the
+unevaluated definition of the interferometric phase for the third.
+A fully commented Jupyter notebook reproduces all nineteen figures and all four
 tables.
 \end{abstract}
 
@@ -439,14 +462,21 @@ $e^{iG2\pi}=(-1)^\omega\mathbb 1$ for integer $\omega$, the holonomy
 $U_{\rm hol}=e^{iG2\pi}e^{-i(G+\Lambda)2\pi}$ gives
 \begin{equation}
 \boxed{\;
-\Phi_U=\Arg\left[(-1)^{\omega}\cos(\pi b)
--i\,\frac{\omega(1-2p)}{b}\sin(\pi b)\right],
+\Phi_U=\Arg\left\{(-1)^{\omega}\left[\cos(\pi b)
+-i\,\frac{\omega(1-2p)}{b}\sin(\pi b)\right]\right\},
 \qquad
 b=\omega\sqrt{1+C^2-4p(1-p)}\;}
 \label{eq:phiU}
 \end{equation}
 where the compact $b$ follows from
-$b^2=\omega^2(\cos^2\theta+C^2\sin^2\theta)$ on substituting $r^2=1-C^2$. Two
+$b^2=\omega^2(\cos^2\theta+C^2\sin^2\theta)$ on substituting $r^2=1-C^2$. The
+prefactor $(-1)^\omega$ comes from $e^{iG2\pi}$, which is a \emph{scalar}, and
+therefore multiplies the whole bracket; attaching it to the cosine alone
+conjugates $Z_U$ for odd $\omega$. The modulus $|Z_U|$ is insensitive to that
+placement --- so the nodal set, the $\mathbb Z_2$ staircase and the
+quantization of $C$ below are unaffected --- but the sign of $\Phi_U$ for odd
+$\omega$ is not. Section~\ref{sec:numerics} therefore compares the full complex
+$Z_U$, not merely its modulus, against the two connection-free holonomies. Two
 limits check the result: if $G$ commutes with $\rho$ the state does not move
 and $\Phi_U=0$; and the maximally mixed loop is again trivial. At the
 population-symmetric point,
@@ -462,7 +492,7 @@ so $b$ is there \emph{proportional} to the concurrence.
 % =========================================================================
 
 Define the complex Uhlmann amplitude
-$Z_U=(-1)^\omega\cos(\pi b)-i\,\omega(1-2p)b^{-1}\sin(\pi b)$, so
+$Z_U=(-1)^\omega[\cos(\pi b)-i\,\omega(1-2p)b^{-1}\sin(\pi b)]$, so
 $\Phi_U=\Arg Z_U$. A genuine phase singularity needs both parts to vanish;
 since $\cos(\pi b)=0\Rightarrow\sin(\pi b)\neq0$, the factor $(1-2p)$ must
 vanish independently. Hence
@@ -590,8 +620,8 @@ With $\beta=\alpha$ and $\mu=\nu$ one has $\eta=1$ and therefore $p=C/2$
 exactly, so $1+C^2-4p(1-p)=C^2+(1-C)^2$ and
 \begin{equation}
 \boxed{\;b=\Delta\sqrt{C^2+(1-C)^2},\qquad
-\Phi_U=\Arg\Big[(-1)^\Delta\cos(\pi b)
--i\frac{\Delta(1-C)}{b}\sin(\pi b)\Big]\;}
+\Phi_U=\Arg\Big\{(-1)^\Delta\Big[\cos(\pi b)
+-i\frac{\Delta(1-C)}{b}\sin(\pi b)\Big]\Big\}\;}
 \label{eq:phiU-of-C}
 \end{equation}
 a function of $C$ and $\Delta$ \emph{only}, plotted in Fig.~\ref{fig:f13}(a).
@@ -715,7 +745,7 @@ $(\alpha,\beta)$ plane is precisely the diagonal.
 
 \paragraph{Antisymmetry in the crossed family.}
 There $p_A=p_B$ identically but $\omega_B=-\omega_A$, hence $b_B=-b_A$.
-Inspecting Eq.~\eqref{eq:phiU}: $(-1)^{\omega_B}=(-1)^{\omega_A}$ and
+Inspecting Eq.~\eqref{eq:phiU}: the scalar $(-1)^{\omega_B}=(-1)^{\omega_A}$ and
 $\cos(\pi b_B)=\cos(\pi b_A)$, so the real parts agree; while
 $\omega_B/b_B=\omega_A/b_A$ but $\sin(\pi b_B)=-\sin(\pi b_A)$, so the
 imaginary parts are opposite. Therefore $Z_U^B=\overline{Z_U^A}$ and
@@ -820,6 +850,300 @@ $k$ & $C_k$ & $\mu_k$ & $\alpha_k$ & $\mu_k^A$ & $\alpha_k^A$
 \end{table}
 
 % =========================================================================
+\section{Interferometric phases of the subsystems, and gauge invariance}
+\label{sec:interf}
+% =========================================================================
+
+The Uhlmann holonomy of Sec.~\ref{sec:uhlmann} is not the only geometric phase
+a mixed state carries, and it is not the one an interferometer reads. This
+section derives the \emph{interferometric} (Sj\"oqvist) phase
+\cite{Sjoqvist2000} of both reduced states under the same global cycle,
+establishes its gauge invariance, and shows in what precise sense it is
+complementary to the Uhlmann phase.
+
+\subsection{Definition and parallel transport}
+
+Let $\rho(\phi)=U(\phi)\rho_0U^\dagger(\phi)$ with
+$\rho_0=\sum_k\lambda_k\ket{k}\bra{k}$. The interferometric phase is the
+Pancharatnam phase of the fringe pattern produced when $U$ is applied in one
+arm of a Mach--Zehnder interferometer, with the dynamical phase of every
+eigenchannel removed:
+\begin{equation}
+\Phi^{\rm int}=\Arg\sum_k\lambda_k\bra{k}U(\tau)\ket{k}
+\exp\!\left[-\int_0^\tau\bra{k}U^\dagger\dot U\ket{k}\,d\phi\right].
+\label{eq:sjoqvist}
+\end{equation}
+Equivalently, one asks for the unitary $U_{\rm par}=U\,X$ that generates the
+same path of density matrices, $[X,\rho_0]=0$, $X(0)=\mathbb 1$, and satisfies
+the $N$ parallel-transport conditions
+\begin{equation}
+\bra{k}U_{\rm par}^\dagger\dot U_{\rm par}\ket{k}=0,\qquad k=1,\dots,N ,
+\label{eq:pt-int}
+\end{equation}
+whereupon $\Phi^{\rm int}=\Arg\Tr[\rho_0U_{\rm par}(\tau)]$. For a
+time-independent generator, $\dot U=iGU$, condition \eqref{eq:pt-int} is solved
+by $X=e^{-iG_d\phi}$ with $G_d\equiv\sum_kP_kGP_k$ the part of $G$ that is
+diagonal in the eigenbasis of $\rho_0$, $P_k=\ket{k}\bra{k}$, so that
+\begin{equation}
+\boxed{\;\Phi^{\rm int}=\Arg\Tr\!\left[\rho_0\,e^{iG\tau}e^{-iG_d\tau}\right].}
+\label{eq:int-holonomy}
+\end{equation}
+
+\subsection{Gauge invariance}
+\label{sec:int-gauge}
+
+Two gauge freedoms act here, and the phase must be blind to both.
+
+\paragraph{(G1) Eigenvector phases.} A rephasing $\ket{k}\to e^{i\zeta_k}\ket{k}$
+leaves every projector $P_k$ --- and hence $G_d$, $\rho_0$ and
+Eq.~\eqref{eq:int-holonomy} --- unchanged. In the form \eqref{eq:sjoqvist} the
+factor $e^{i\zeta_k}$ cancels between the bra and the ket of each term.
+Invariance is exact and term by term.
+
+\paragraph{(G2) Which unitary implements the path.} The path
+$\phi\mapsto\rho(\phi)$ fixes $U$ only up to
+\begin{equation}
+U(\phi)\;\longrightarrow\;U(\phi)\,e^{i\Xi(\phi)},\qquad
+[\Xi(\phi),\rho_0]=0,\qquad \Xi(0)=0 ,
+\label{eq:gauge}
+\end{equation}
+i.e.\ up to the stabilizer of $\rho_0$. Writing
+$\Xi=\sum_k\xi_k(\phi)P_k$, the endpoint factor in \eqref{eq:sjoqvist} becomes
+$\bra{k}Ue^{i\Xi}\ket{k}=e^{i\xi_k(\tau)}\bra{k}U\ket{k}$, while
+\begin{equation}
+\bra{k}\big(Ue^{i\Xi}\big)^\dagger\frac{d}{d\phi}\big(Ue^{i\Xi}\big)\ket{k}
+=\bra{k}U^\dagger\dot U\ket{k}+i\,\dot\xi_k
+\quad\Longrightarrow\quad
+e^{-\int}\;\longrightarrow\;e^{-i\xi_k(\tau)}e^{-\int} .
+\end{equation}
+The two factors cancel in \emph{each} term of the sum, so $\Phi^{\rm int}$ is
+invariant. By contrast the bare Pancharatnam phase $\Arg\Tr[\rho_0U(\tau)]$
+transforms; Fig.~\ref{fig:f19}(a) shows it sweeping the whole circle along a
+one-parameter family $\Xi_t=t\,\Xi$ while $\Phi^{\rm int}$ stays pinned to the
+closed form to the discretization error, which vanishes as $(\delta\phi)^2$,
+Fig.~\ref{fig:f19}(b).
+
+A global phase $U\to e^{i\chi(\phi)}U$ is the special case
+$\Xi=\chi\mathbb 1$ of \eqref{eq:gauge}; it therefore drops out as well. This
+will matter below: it is what makes the photon-addition offset $e^{-im\phi}$
+common to both branches irrelevant.
+
+\subsection{Laboratory frame: the interferometric phase is a weighted sum of
+eigenstate Berry phases}
+
+In the laboratory the cycle is implemented by a phase shifter,
+$U_s(\phi)=e^{-i\nop_s\phi}$, and two features make \eqref{eq:sjoqvist}
+collapse: the spectrum of $\nop$ is integral, so $U_s(2\pi)=\mathbb 1$; and
+$[U_s,\nop_s]=0$, so $\nu_k\equiv\bra{k}\nop_s\ket{k}$ is constant along the
+loop. Hence $\bra{k}U^\dagger\dot U\ket{k}=-i\nu_k$ and
+\begin{equation}
+\boxed{\;Z^{\rm int}_s=\sum_k\lambda_k\,e^{i\gamma_k},\qquad
+\gamma_k=2\pi\nu_k=2\pi\bra{k}\nop_s\ket{k},\qquad
+\Phi^{\rm int}_s=\Arg Z^{\rm int}_s\;}
+\label{eq:int-lab}
+\end{equation}
+where $\gamma_k$ is exactly the Berry phase that the \emph{eigenstate}
+$\ket{k}$ of $\rho_s(0)$ acquires under the same cycle. The interferometric
+phase of a subsystem is therefore the Pancharatnam sum of the Berry phases of
+its Schmidt modes, weighted by their populations --- the natural mixed-state
+successor of Sec.~\ref{sec:berry}, and it reduces to the Berry phase when
+$\rho_s$ is pure.
+
+Both reduced states are rank two with
+$\lambda_\pm=\tfrac12(1\pm r)$, $r=\sqrt{1-C^2}$, the same $r$ for $A$ and $B$
+by Schmidt isospectrality. Writing $\nu_\pm=\bar\nu\pm\delta_s$,
+Eq.~\eqref{eq:int-lab} becomes
+\begin{equation}
+\boxed{\;
+Z^{\rm int}_s=e^{i\pi\Tr\mathcal N_s}
+\Big[\cos(2\pi\delta_s)+i\,r\,\sin(2\pi\delta_s)\Big]\;}
+\label{eq:int-lab-closed}
+\end{equation}
+with $\mathcal N_s\equiv \Pi_s\nop_s\Pi_s$ the number operator projected on the
+two-dimensional support of $\rho_s$, $\bar\nu=\tfrac12\Tr\mathcal N_s$, and
+\begin{equation}
+\delta_s=\frac{1}{r}\left[\frac{(1-2p_s)}{2}
+\big(\mathcal N^s_{00}-\mathcal N^s_{11}\big)
++2c_0^s\,\mathcal N^s_{01}\right],\qquad
+c_0^s=\sqrt{p_s(1-p_s)-\big(\tfrac{C}{2}\big)^2}.
+\label{eq:delta-s}
+\end{equation}
+In the Gram--Schmidt basis \eqref{eq:gram-schmidt} of a branch pair
+$\{\ket{\alpha,m},\ket{\alpha,n}\}$ the matrix $\mathcal N$ is built from
+quantities already in hand,
+\begin{equation}
+\mathcal N_{00}=\bar n_{\alpha,m},\qquad
+\mathcal N_{01}=\frac{\kappa_\alpha-g_\alpha\bar n_{\alpha,m}}{N_1},\qquad
+\mathcal N_{11}=\frac{\bar n_{\alpha,n}-2g_\alpha\kappa_\alpha
++g_\alpha^2\bar n_{\alpha,m}}{N_1^2},
+\label{eq:Nmatrix}
+\end{equation}
+$N_1=\sqrt{1-g_\alpha^2}$, with $\kappa_\alpha=g_{mn}Q_{mn}$ of
+Eq.~\eqref{eq:Qmn}. Two structural remarks follow. First, the offset
+$\pi\Tr\mathcal N_s$ is a property of the logical subspace alone: it does not
+depend on $\mu$, hence carries no entanglement information. Second, all the
+entanglement dependence sits in the bracket of
+Eq.~\eqref{eq:int-lab-closed}, through $r=\sqrt{1-C^2}$ and through
+$\delta_s$.
+
+\subsection{Visibility, and a single-mode witness of the concurrence}
+
+The modulus of \eqref{eq:int-lab-closed} is the fringe contrast, and it is a
+direct function of the concurrence:
+\begin{equation}
+\boxed{\;\mathcal V_s=\big|Z^{\rm int}_s\big|
+=\sqrt{1-C^2\sin^2(2\pi\delta_s)}\;}
+\qquad\Longleftrightarrow\qquad
+\mathcal V_s^2+C^2\sin^2(2\pi\delta_s)=1 .
+\label{eq:visibility}
+\end{equation}
+Since $\delta_s$ is fixed by the local parameters through
+Eqs.~\eqref{eq:delta-s}--\eqref{eq:Nmatrix}, the relation inverts:
+\begin{equation}
+\boxed{\;C=\frac{\sqrt{1-\mathcal V_s^{\,2}}}{\left|\sin(2\pi\delta_s)\right|}\;}
+\label{eq:witness}
+\end{equation}
+\emph{The interference contrast of one mode alone determines the concurrence of
+the global entangled PACS.} Table~\ref{tab:interf} evaluates
+Eq.~\eqref{eq:witness} on sixteen configurations of both families and both
+subsystems; it reproduces the exact concurrence
+$C=2\mu\nu N_1N_2/\mathcal N^2$ of Eq.~\eqref{eq:concurrence} to
+$3\times10^{-14}$ in every case. Note that $\mathcal V_s=1$ whenever
+$\sin2\pi\delta_s=0$: the witness needs the loop to be tuned away from those
+blind points, which is what the $\alpha$-dependence of $\mathcal N_s$ provides.
+Figure~\ref{fig:f17} shows the phase, the contrast, the reconstructed
+concurrence, and simulated Mach--Zehnder fringes.
+
+\subsection{The same construction on the logical loop, and the comparison with
+Uhlmann}
+
+Equations \eqref{eq:int-lab}--\eqref{eq:witness} refer to the laboratory
+realization of the cycle. The Uhlmann analysis of Sec.~\ref{sec:uhlmann} was
+carried out on the reduced $2\times2$ loop \eqref{eq:isospectral}, i.e.\ in the
+co-moving Gram--Schmidt frame that follows the coherent amplitude
+$\alpha\to\alpha e^{-i\phi}$ and returns to itself at $\phi=2\pi$. The two
+descriptions are related by a closed loop of frames and are not term-by-term
+equal --- a reduced-state geometric phase depends on which unitary realizes the
+cycle, not merely on the reduced state itself. To compare like with like we
+also evaluate \eqref{eq:int-holonomy} on the logical loop, where
+$G=\tfrac{\omega_s}{2}\sigma_z$:
+\begin{equation}
+\boxed{\;Z^{\rm int}_s\big|_{\rm log}=(-1)^{\omega_s}
+\Big[\cos\gamma_s-i\,r\sin\gamma_s\Big],\qquad
+\gamma_s=\pi\omega_s\,\frac{1-2p_s}{r}=\pi\omega_s\cos\theta_s\;}
+\label{eq:int-log}
+\end{equation}
+with $\cos\theta_s=(1-2p_s)/r$ the tilt of the reduced Bloch vector already
+used in Sec.~\ref{sec:nodal}. Comparing with Eq.~\eqref{eq:phiU}, the two
+mixed-state phases differ by exactly one thing --- how parallel transport
+treats the generator in the eigenbasis of $\rho$:
+\begin{equation}
+\text{Uhlmann:}\quad G\to G_d+C\,G_{\rm od},
+\qquad\qquad
+\text{Sj\"oqvist:}\quad G\to G_{\rm od} .
+\label{eq:two-transports}
+\end{equation}
+Uhlmann keeps the diagonal part intact and rescales the off-diagonal part by
+the concurrence, Eq.~\eqref{eq:GLambda}; the interferometric prescription
+deletes the diagonal part and leaves the off-diagonal part alone. This
+suggests the one-parameter interpolation $G_{\rm eff}(s)=G_d+s\,G_{\rm od}$,
+for which the holonomy amplitude is
+\begin{equation}
+Z(s)=(-1)^{\omega}\left[\cos(\pi b_s)
+-i\,\frac{\omega(1-2p)}{b_s}\sin(\pi b_s)\right],\qquad
+b_s=\omega\sqrt{\frac{(1-2p)^2+s^2\big(4p(1-p)-C^2\big)}{1-C^2}} ,
+\label{eq:Zs}
+\end{equation}
+which contains all three cases:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$s$ & $b_s$ & phase\\
+\midrule
+$s=1$ & $\omega$ & no transport: $Z=1$, $\Phi=0$\\
+$s=C$ & $\omega\sqrt{1+C^2-4p(1-p)}$ & Uhlmann, Eq.~\eqref{eq:phiU}\\
+$s=0$ & $\omega(1-2p)/r$ & interferometric, Eq.~\eqref{eq:int-log}\\
+\bottomrule
+\end{tabular}
+\end{center}
+On the singular locus $p=1/2$ the interpolation collapses to
+\begin{equation}
+\boxed{\;b_s\big|_{p=1/2}=\omega\,s\;}
+\label{eq:bs-half}
+\end{equation}
+independently of $C$. The nodal condition $|b|=k+\tfrac12$ therefore
+selects the \emph{horizontal} lines $s=(2k+1)/2\Delta$ of the $(C,s)$ plane,
+Fig.~\ref{fig:f18}(b). The Uhlmann phase lives on the diagonal $s=C$ and
+crosses each of those $\Delta$ lines exactly once, at
+$C_k=(2k+1)/2\Delta$ --- which is Eq.~\eqref{eq:Ck} read geometrically. The
+interferometric phase lives on the axis $s=0$ and crosses none of them.
+
+\subsection{No interior singularities, and the one that survives}
+
+Directly from \eqref{eq:int-log},
+\begin{equation}
+\big|Z^{\rm int}_s\big|_{\rm log}
+=\sqrt{1-C^2\sin^2\gamma_s}\;\geq\;\sqrt{1-C^2}=r>0
+\qquad\text{for } C<1 ,
+\label{eq:no-nodes}
+\end{equation}
+the same bound as in the laboratory frame. \emph{The interferometric phase of
+either subsystem has no singularity anywhere in the interior of the physical
+region}, in sharp contrast with the $\Delta$ Uhlmann nodes of
+Eq.~\eqref{eq:Ck}; Fig.~\ref{fig:f18}(c) contrasts the two moduli over the
+$(p,C)$ plane. In particular, on the locus $p=1/2$ one has $\gamma_s=0$ and
+\begin{equation}
+\Phi^{\rm int}_s\Big|_{p=1/2}=\pi\Delta \ \ (\mathrm{mod}\ 2\pi)
+\qquad\text{with}\qquad \mathcal V_s=1 ,
+\label{eq:int-half}
+\end{equation}
+a constant parity with full contrast: exactly where the Uhlmann phase resolves
+the concurrence most finely --- the $\mathbb Z_2$ staircase of
+Eq.~\eqref{eq:Z2} --- the interferometric phase is completely blind to it,
+Fig.~\ref{fig:f18}(a).
+
+The single exception is the boundary $C=1$. Maximal entanglement forces $r=0$,
+hence $p=1/2$ and $\rho_s=\mathbb 1/2$; the eigenbasis becomes undetermined and
+the gauge group of Sec.~\ref{sec:int-gauge} grows from the stabilizer
+$U(1)\times U(1)$ to all of $U(2)$. Equation \eqref{eq:int-holonomy} then
+depends on which basis one calls the eigenbasis: for a basis tilted by
+$\theta_Q$,
+\begin{equation}
+Z^{\rm int}\big|_{C=1}=(-1)^{\omega}\cos\!\big(\pi\omega\cos\theta_Q\big),
+\label{eq:degenerate}
+\end{equation}
+which is real, takes any value in $[-1,1]$, and vanishes whenever
+$\omega\cos\theta_Q=k+\tfrac12$. Figure~\ref{fig:f19}(c) verifies this
+numerically. So the interferometric phase does possess nodes, but they are all
+pushed onto the maximally entangled boundary and are gauge artefacts of the
+degeneracy, whereas the Uhlmann nodes sit at interior, gauge-invariant
+concurrences $C_k$. The structural reason is that the Uhlmann bundle carries
+the full $U(2)$ as its structure group everywhere, while the interferometric
+construction carries only the stabilizer of $\rho$ --- a smaller group, and
+correspondingly a less singular phase. In the PACS model $C=1$ is reached in
+the Fock limit $\alpha\to0$ at $\mu=\nu$, where the two branches become
+orthogonal.
+
+\subsection{Asymmetry between $A$ and $B$}
+
+On the logical loop the crossed family has $p_A=p_B$ and
+$\omega_B=-\omega_A$, so $\gamma_B=-\gamma_A$ and
+\begin{equation}
+\Phi^{\rm int,\,log}_B=-\Phi^{\rm int,\,log}_A
+\label{eq:int-antisym}
+\end{equation}
+exactly, mirroring the Uhlmann antisymmetry \eqref{eq:antisym}; in the
+branch-correlated family $\omega_A=\omega_B$ and the asymmetry is carried
+entirely by $p_A\neq p_B$, i.e.\ by $g_\alpha\neq h_\beta$ --- the same
+mechanism as in Sec.~\ref{sec:asymmetry}. In the laboratory frame even the
+crossed antisymmetry is broken, but only by the offsets
+$\pi\Tr\mathcal N_A\neq\pi\Tr\mathcal N_B$ of
+Eq.~\eqref{eq:int-lab-closed}, which are properties of the two local
+subspaces and not of the entanglement: the entanglement-dependent bracket
+still obeys $\delta_B\leftrightarrow\delta_A$ symmetry constraints inherited
+from the shared $r$. Table~\ref{tab:interf} lists both frames side by side.
+
+% =========================================================================
 \section{Numerical validation}
 \label{sec:numerics}
 % =========================================================================
@@ -840,7 +1164,22 @@ parallel-transport condition $W_j^\dagger W_{j+1}\ge0$ directly: with
 $\sqrt{\rho_j}\sqrt{\rho_{j+1}}=V_jP_j$ one has $U_{j+1}=V_j^\dagger U_j$ and
 $\Phi_U=\Arg\Tr[\rho_0U_{\rm hol}]$. Method~2 integrates
 $\dot U=-i\Lambda U$ after solving Eq.~\eqref{eq:transport} as a linear system
-at each step. Neither uses a closed-form connection.
+at each step. Neither uses a closed-form connection. Both are compared against
+the full complex $Z_U$, not merely $|Z_U|$: it is the modulus alone that is
+blind to the placement of the scalar $(-1)^\omega$ discussed after
+Eq.~\eqref{eq:phiU}, and to the orientation of the loop, so a modulus-only
+check would not have caught either.
+
+\paragraph{Interferometric sector: the definition itself.}
+Equation~\eqref{eq:sjoqvist} is evaluated directly on a discretized family of
+unitaries --- endpoint matrix elements times the numerically integrated
+transport factor --- with no closed form anywhere, and compared to
+Eq.~\eqref{eq:int-log}; the residual is $O((\delta\phi)^2)$. Gauge invariance is
+tested by pushing the same loop through a one-parameter family of gauge
+transformations \eqref{eq:gauge} built from random Fourier coefficients with
+$\xi_k(2\pi)\neq0$. In the laboratory frame, Eq.~\eqref{eq:int-lab} is obtained
+by direct diagonalization of the exact truncated-Fock $\rho_s(0)$, so the
+closed form \eqref{eq:int-lab-closed} is never used in the reference value.
 
 \begin{table}[htbp]
 \centering
@@ -859,8 +1198,8 @@ Mode split $\Phi_B=\Phi_B^{(A)}+\Phi_B^{(B)}$ & Closed forms & $9\times10^{-16}$
 Symmetric case $\Phi_B=2\Phi_B^{(A)}$ & Closed forms & $0$ (exact)\\
 Affine law, Eq.~\eqref{eq:berry-vs-C} & Direct evaluation & $10^{-10}$\\
 $p_s$, $C$, $\omega_s$, Eqs.~\eqref{eq:pApB}--\eqref{eq:det} & Fock + winding fit & $10^{-9}$\\
-$\Phi_U$, Eq.~\eqref{eq:phiU} & Polar holonomy & $2\times10^{-6}$\\
-$\Phi_U$, Eq.~\eqref{eq:phiU} & Transport ODE & $2\times10^{-6}$\\
+$Z_U$ (complex), Eq.~\eqref{eq:phiU} & Polar holonomy & $3\times10^{-5}$\\
+$Z_U$ (complex), Eq.~\eqref{eq:phiU} & Transport ODE & $3\times10^{-5}$\\
 Tilt identity, Eq.~\eqref{eq:b-tilt} & Eq.~\eqref{eq:phiU} & $2\times10^{-16}$\\
 Nodes $C_k$, Eq.~\eqref{eq:Ck} & $|Z_U|$ at the node & $10^{-14}$\\
 Antisymmetry, Eq.~\eqref{eq:antisym} & Closed form & $0$ (exact)\\
@@ -870,6 +1209,13 @@ $p=C/2$ and Eq.~\eqref{eq:phiU-of-C} (balanced sym.) & Eq.~\eqref{eq:phiU} & $2\
 $\mathbb{Z}_2$ reduction on $p=1/2$, Eq.~\eqref{eq:Z2} & $\mathrm{Im}\,Z_U$ & $0$ (exact)\\
 Stable overlap \eqref{eq:overlap-stable} (Kummer) & Fock, up to $\alpha=60$ & $4\times10^{-15}$\\
 $\Delta=8$ nodes, Table~\ref{tab:many} & $p$, $b$, $|Z_U|$ at each node & $5\times10^{-14}$\\
+\midrule
+$Z^{\rm int}_s$ lab, Eq.~\eqref{eq:int-lab} & Eq.~\eqref{eq:int-lab-closed} & $4\times10^{-14}$\\
+Witness \eqref{eq:witness} & Exact $C$, Eq.~\eqref{eq:concurrence} & $3\times10^{-14}$\\
+$Z^{\rm int}_s$ log, Eq.~\eqref{eq:int-log} & Definition \eqref{eq:sjoqvist}, discretized & $3\times10^{-6}$\\
+Gauge invariance \eqref{eq:gauge} & Spread over gauges, $\delta\phi=2\pi/8000$ & $4\times10^{-5}$\\
+$Z(s{=}C)=Z_U$, $Z(s{=}0)=Z^{\rm int}$, Eq.~\eqref{eq:Zs} & Eqs.~\eqref{eq:phiU}, \eqref{eq:int-log} & $7\times10^{-15}$\\
+Degenerate limit, Eq.~\eqref{eq:degenerate} & Eq.~\eqref{eq:int-holonomy}, direct & $3\times10^{-15}$\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1046,6 +1392,61 @@ $\alpha\approx97$ --- note the logarithmic $\alpha$ axis. Numerical values in
 Table~\ref{tab:many}.}
 \label{fig:f16}\end{figure}
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig17_interferometric_lab.pdf}
+\caption{Interferometric (Sj\"oqvist) phase of the two reduced states in the
+laboratory frame, Eqs.~\eqref{eq:int-lab}--\eqref{eq:int-lab-closed}, for the
+branch-correlated family with $(m,n)=(0,2)$, $\alpha=0.5$, $\beta=0.9$.
+(a) $\Phi^{\rm int}_A$ and $\Phi^{\rm int}_B$ versus $\mu$: lines are the
+closed form, markers the exact truncated-Fock evaluation of
+$\Arg\sum_k\lambda_ke^{2\pi i\nu_k}$ (agreement $4\times10^{-14}$). The two
+subsystems differ because the offsets $\pi\Tr\mathcal N_s$ and the splittings
+$\delta_s$ are local properties of each mode.
+(b) Fringe contrast $\mathcal V_s=\sqrt{1-C^2\sin^2 2\pi\delta_s}$ (solid)
+against the exact concurrence (dotted); triangles are the concurrence
+\emph{reconstructed} from the contrast of a single mode through the witness
+\eqref{eq:witness}, and fall on the exact curve.
+(c) Simulated Mach--Zehnder fringes $I(\chi)=1+\mathrm{Re}[e^{i\chi}Z^{\rm int}_A]$
+at three values of $\mu$: the fringe shift is $-\Phi^{\rm int}_A$ (dotted
+verticals) and the contrast is $\mathcal V_A$.}
+\label{fig:f17}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig18_interf_vs_uhlmann.pdf}
+\caption{The two mixed-state geometric phases on the same logical loop,
+Eq.~\eqref{eq:two-transports}.
+(a) On $p=1/2$: the Uhlmann phase is the $\mathbb Z_2$ staircase of
+Eq.~\eqref{eq:Z2}, jumping at the quantized concurrences
+$C_k=(2k+1)/2\Delta$ (gold), while the interferometric phase is the constant
+parity $\pi\Delta$ of Eq.~\eqref{eq:int-half}, blind to $C$ (curves offset
+vertically for legibility).
+(b) The interpolating family $G_{\rm eff}=G_d+s\,G_{\rm od}$ of
+Eq.~\eqref{eq:Zs} at $p=1/2$, $\Delta=3$: since $b_s=\Delta s$, all nodes lie
+on the horizontal lines $s=(2k+1)/2\Delta$ (dashed). The Uhlmann phase runs
+along the diagonal $s=C$ and meets every one of them; the interferometric
+phase runs along $s=0$ and meets none; $s=1$ is the untransported cycle.
+(c) Difference of moduli over the physical region $(p,C)$ for $\Delta=2$:
+$|Z^{\rm int}|\geq\sqrt{1-C^2}>0$ everywhere, whereas $|Z_U|$ vanishes at the
+two gold nodes on $p=1/2$ (black contour $|Z_U|=0.02$).}
+\label{fig:f18}\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.99\linewidth]{fig19_gauge_invariance.pdf}
+\caption{Gauge invariance of the interferometric phase, Sec.~\ref{sec:int-gauge}.
+(a) Under the one-parameter gauge family $U\to Ue^{i t\Xi(\phi)}$ with
+$[\Xi,\rho_0]=0$ and $\Xi(0)=0$, the bare Pancharatnam phase
+$\Arg\Tr[\rho_0U(2\pi)]$ sweeps the entire circle while $\Phi^{\rm int}$ stays
+pinned to the closed form \eqref{eq:int-log} (dashed).
+(b) The residual spread of $\Phi^{\rm int}$ over gauges scales as
+$(\delta\phi)^2$: gauge invariance is exact in the continuum and the residual
+is purely the discretization of the transport integral.
+(c) At $C=1$, where $\rho_s=\mathbb 1/2$ and the gauge group grows to $U(2)$,
+the phase becomes basis dependent: $|Z^{\rm int}|=|\cos(\pi\Delta\cos\theta_Q)|$
+as a function of the eigenbasis angle, Eq.~\eqref{eq:degenerate}, with zeros
+whenever $\Delta\cos\theta_Q$ is a half-integer (triangles: direct numerical
+evaluation of Eq.~\eqref{eq:int-holonomy}).}
+\label{fig:f19}\end{figure}
+
 \begin{table}[htbp]\centering
 \caption{Critical amplitudes $\alpha_g(m,n)$ from $|g_{mn}(\alpha_g)|^2=1/2$.}
 \label{tab:alphag}
@@ -1095,6 +1496,53 @@ $(2,4)$ & 2 & 0 & 0.2500 & 0.2425 & 1.1867 & 1.5829 & $3.1\times10^{-15}$\\
 \end{tabular}
 \end{table}
 
+\begin{table}[htbp]\centering
+\caption{Interferometric phases of both subsystems. $\Phi^{\rm int}_s/\pi$ is the
+laboratory-frame phase \eqref{eq:int-lab}, evaluated by direct diagonalization
+of the exact truncated-Fock $\rho_s(0)$; it agrees with the closed form
+\eqref{eq:int-lab-closed} to $4\times10^{-14}$ on every row.
+$C(\mathcal V_s)$ is the concurrence reconstructed from the single-mode fringe
+contrast through the witness \eqref{eq:witness}; it reproduces the exact $C$ to
+$3\times10^{-14}$. The last two columns give the interferometric and Uhlmann
+phases of the same logical loop, Eqs.~\eqref{eq:int-log} and \eqref{eq:phiU},
+for comparison: note the exact antisymmetry between $A$ and $B$ in the crossed
+family, and its absence in the laboratory frame.}
+\label{tab:interf}
+\footnotesize
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{llccccccccccc}
+\toprule
+family & $(m,n)$ & $\alpha$ & $\beta$ & $\mu$ & $s$ & $C$ & $\delta_s$ &
+$\Phi^{\rm int}_s/\pi$ & $\mathcal V_s$ & $C(\mathcal V_s)$ &
+$\Phi^{\rm int,log}_s/\pi$ & $\Phi_U^{\rm log}/\pi$\\
+\midrule
+corr. & $(0,2)$ & 0.5 & 0.9 & 0.4500 & $A$ & 0.7223 & +1.0489 & +0.9021 & 0.9759 & 0.7223 & -0.5578 & -0.1551\\
+ &  &  &  &  & $B$ & 0.7223 & +1.2923 & +0.8577 & 0.7172 & 0.7223 & -0.9610 & -0.2727\\
+\midrule
+corr. & $(0,2)$ & 0.5 & 0.9 & 0.7071 & $A$ & 0.8906 & +0.1190 & +0.9604 & 0.7956 & 0.8906 & -0.1650 & +0.0184\\
+ &  &  &  &  & $B$ & 0.8906 & +0.2305 & +0.6539 & 0.4677 & 0.8906 & -0.7882 & +0.0369\\
+\midrule
+corr. & $(0,2)$ & 1.1 & 0.8 & 0.6000 & $A$ & 0.7480 & +0.8099 & +0.7985 & 0.7183 & 0.7480 & -0.1158 & +0.4987\\
+ &  &  &  &  & $B$ & 0.7480 & +0.6992 & -0.8057 & 0.7040 & 0.7480 & +0.1104 & -0.5034\\
+\midrule
+corr. & $(1,3)$ & 1.3 & 0.7 & 0.4500 & $A$ & 0.5257 & +1.1058 & -0.7164 & 0.9460 & 0.5257 & -0.2219 & +0.9856\\
+ &  &  &  &  & $B$ & 0.5257 & +0.9245 & -0.1837 & 0.9708 & 0.5257 & +0.5100 & -0.9450\\
+\midrule
+corr. & $(2,4)$ & 0.8 & 1.6 & 0.3500 & $A$ & 0.3373 & +1.0136 & +0.8698 & 0.9996 & 0.3373 & +0.2841 & +0.8699\\
+ &  &  &  &  & $B$ & 0.3373 & +1.1967 & +0.3783 & 0.9479 & 0.3373 & -0.6096 & -0.9219\\
+\midrule
+cross. & $(0,2)$ & 1.1 & 0.8 & 0.6000 & $A$ & 0.5574 & +0.7078 & -0.5238 & 0.8430 & 0.5574 & -0.6400 & +0.8892\\
+ &  &  &  &  & $B$ & 0.5574 & +0.1424 & +0.3322 & 0.9005 & 0.5574 & +0.6400 & -0.8892\\
+\midrule
+cross. & $(0,3)$ & 1.5 & 1.2 & 0.5000 & $A$ & 0.5972 & +1.3190 & +0.3278 & 0.8404 & 0.5972 & -0.8948 & +0.9862\\
+ &  &  &  &  & $B$ & 0.5972 & -0.5687 & +0.5484 & 0.9683 & 0.5972 & +0.8948 & -0.9862\\
+\midrule
+cross. & $(0,1)$ & 0.9 & 0.9 & 0.7071 & $A$ & 0.3817 & +0.3345 & -0.6999 & 0.9443 & 0.3817 & +0.3199 & +0.2478\\
+ &  &  &  &  & $B$ & 0.3817 & +0.3345 & -0.6999 & 0.9443 & 0.3817 & -0.3199 & -0.2478\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 % =========================================================================
 \section{Discussion}
 % =========================================================================
@@ -1137,6 +1585,27 @@ exchanged, one gets not symmetry but the exact antisymmetry
 $\Phi_U^A+\Phi_U^B=0$. Entanglement is symmetric; local geometry need not be,
 and mixed-state holonomy sees both.
 
+\emph{Level 4 --- what an interferometer actually sees.} The Uhlmann holonomy
+is not measured by letting a mixed state acquire a phase in one arm of an
+interferometer; the interferometric phase is. Section~\ref{sec:interf} shows
+that the two differ by exactly one choice --- which part of the generator
+parallel transport removes, Eq.~\eqref{eq:two-transports} --- and that the
+choice has sharp consequences. The Uhlmann prescription retains the diagonal
+generator and damps the off-diagonal one by $C$, which is what allows the
+transported winding $b$ to slide continuously with the entanglement and to
+cross half-integers: the nodes exist \emph{because} $C$ appears inside the
+generator. The interferometric prescription removes the diagonal generator and
+leaves the off-diagonal one untouched, so $C$ never enters the effective
+winding at all; it survives only in the eigenvalue weights, where it can reduce
+the fringe contrast but can never make it vanish. That is the content of
+$|Z^{\rm int}|\geq\sqrt{1-C^2}$, and it explains why an interferometric
+measurement of these states is robust where the Uhlmann phase is singular ---
+and, conversely, why the interferometric phase is a poor probe of the nodal
+structure but an excellent probe of $C$ itself: what it loses in singularity it
+gains in visibility, Eq.~\eqref{eq:witness}. The two are complementary
+readouts of the same loop, and the interpolation \eqref{eq:Zs} makes the family
+they belong to explicit.
+
 Finally, the critical amplitude $\alpha_g$ is not a thermodynamic critical
 point but an overlap-controlled boundary: it is fixed entirely by
 $|g_{mn}(\alpha_g)|^2=1/2$ and separates the region where equal logical-basis
@@ -1169,7 +1638,24 @@ $U(\phi)=e^{-i(\nop_A+\nop_B)\phi}$ yields:
       to both subsystems and all bounded by $\alpha_g$;
 \item a precise account of the $A\leftrightarrow B$ asymmetry: shared
       concurrence, unshared local populations, with symmetry on $\beta=\alpha$
-      and exact antisymmetry $\Phi_U^B=-\Phi_U^A$ in the crossed family.
+      and exact antisymmetry $\Phi_U^B=-\Phi_U^A$ in the crossed family;
+\item the interferometric phase of both subsystems in closed form, together
+      with its gauge invariance: in the laboratory frame
+      $\Phi^{\rm int}_s=\Arg\sum_k\lambda_ke^{2\pi i\nu_k}$ is the
+      population-weighted Pancharatnam sum of the Berry phases of the Schmidt
+      modes, invariant term by term under $\ket{k}\to e^{i\zeta_k}\ket{k}$ and
+      under $U\to Ue^{i\Xi}$ with $[\Xi,\rho_0]=0$;
+\item an operational consequence: the fringe contrast
+      $\mathcal V_s=\sqrt{1-C^2\sin^2 2\pi\delta_s}$ of a \emph{single} mode
+      determines the concurrence of the global entangled PACS through
+      Eq.~\eqref{eq:witness};
+\item a clean separation of the two mixed-state phases,
+      Eq.~\eqref{eq:two-transports}, embedded in the one-parameter family
+      $G_{\rm eff}=G_d+s\,G_{\rm od}$ with $b_s=\omega s$ on $p=1/2$: the
+      Uhlmann phase ($s=C$) crosses all $\Delta$ nodal lines, the
+      interferometric phase ($s=0$) crosses none, and the latter's only
+      singularity is the maximally entangled point where the gauge group grows
+      from $U(1)\times U(1)$ to $U(2)$.
 \end{enumerate}
 
 Taken together these results provide an analytic bridge between photon
@@ -1280,6 +1766,22 @@ J.\ Phys.\ B \textbf{44}, 075502 (2011).
 \bibitem{Wang2023} X.~Wang, X.-Y. Hou, Z.~Zhou, H.~Guo and C.-C. Chien,
 \emph{Uhlmann phase of coherent states and the Uhlmann--Berry correspondence},
 SciPost Phys.\ Core \textbf{6}, 024 (2023).
+
+\bibitem{Sjoqvist2000} E.~Sj\"oqvist, A.~K. Pati, A.~Ekert, J.~S. Anandan,
+M.~Ericsson, D.~K.~L. Oi and V.~Vedral,
+\emph{Geometric phases for mixed states in interferometry},
+Phys.\ Rev.\ Lett.\ \textbf{85}, 2845 (2000).
+
+\bibitem{Ericsson2003} M.~Ericsson, A.~K. Pati, E.~Sj\"oqvist, J.~Br\"annlund
+and D.~K.~L. Oi,
+\emph{Mixed state geometric phases, entangled systems, and local unitary
+transformations},
+Phys.\ Rev.\ Lett.\ \textbf{91}, 090405 (2003).
+
+\bibitem{Tong2004} D.~M. Tong, E.~Sj\"oqvist, L.~C. Kwek and C.~H. Oh,
+\emph{Kinematic approach to the mixed state geometric phase in nonunitary
+evolution},
+Phys.\ Rev.\ Lett.\ \textbf{93}, 080405 (2004).
 
 \end{thebibliography}
 
