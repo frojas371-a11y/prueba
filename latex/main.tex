@@ -413,6 +413,104 @@ Under the global cycle both reduced states follow isospectral orbits
 V_s(\phi)=e^{i\frac{\omega_s}{2}\sigma_z\phi},\qquad s=A,B .
 \label{eq:isospectral}
 \end{equation}
+This deserves a derivation, because the physical generator is $\nop_s$ --- an
+unbounded operator with no $\sigma_z$ in sight --- and the reduction to
+Eq.~\eqref{eq:isospectral} is where both the winding number $\omega_s$ and a
+frame choice enter.
+
+\subsection{Where $\sigma_z$ comes from}
+\label{sec:frame}
+
+\paragraph{Step 1: the cycle acting on one branch.}
+Since $[\nop,a^\dagger]=a^\dagger$ we have
+$e^{-i\nop\phi}a^{\dagger}e^{i\nop\phi}=a^\dagger e^{-i\phi}$ and
+$e^{-i\nop\phi}\ket{\alpha}=\ket{\alpha e^{-i\phi}}$; the normalization is
+untouched because $L_k(-|\alpha e^{-i\phi}|^2)=L_k(-|\alpha|^2)$. Hence
+\begin{equation}
+e^{-i\nop\phi}\ket{\alpha,k}=e^{-ik\phi}\,\ket{\alpha e^{-i\phi},k} .
+\label{eq:branch-evolution}
+\end{equation}
+Two distinct things happen: a c-number phase $e^{-ik\phi}$ that \emph{carries
+the photon-addition index}, and a rigid rotation of the coherent amplitude
+$\alpha\to\alpha e^{-i\phi}$ that is the \emph{same} for both branches and
+closes at $\phi=2\pi$.
+
+\paragraph{Step 2: the co-moving frame absorbs the amplitude rotation.}
+$\rho_s$ has rank two. Take the Gram--Schmidt basis \eqref{eq:gram-schmidt} at
+$\phi=0$ and transport it, attaching to each logical direction the phase of its
+own branch,
+\begin{equation}
+\ket{e_j(\phi)}=e^{+ik_j\phi}\,e^{-i\nop\phi}\ket{j},\qquad (k_0,k_1)=(m,n) .
+\label{eq:comoving}
+\end{equation}
+This is not an arbitrary choice: $\ket{e_0(\phi)}=\ket{\alpha_\phi,m}$ with
+$\alpha_\phi=\alpha e^{-i\phi}$, and $\ket{e_1(\phi)}$ is exactly the
+\emph{instantaneous} Gram--Schmidt vector of the rotated branches, because the
+overlap rotates too,
+$\braket{\alpha_\phi,m}{\alpha_\phi,n}=e^{i\Delta\phi}g_{mn}(\alpha)$, while
+its modulus stays fixed. The frame is orthonormal for every $\phi$ and closes,
+$\ket{e_j(2\pi)}=\ket{j}$. In it,
+\begin{equation}
+\tilde\rho_{jk}(\phi)=e^{-ik_j\phi}\rho_{jk}(0)e^{+ik_k\phi}
+=\big[D^\dagger(\phi)\,\rho(0)\,D(\phi)\big]_{jk},\qquad
+D(\phi)=\mathrm{diag}\big(e^{ik_0\phi},e^{ik_1\phi}\big).
+\label{eq:D}
+\end{equation}
+The amplitude rotation has gone with the frame --- it was pure transport ---
+and all that survives is the diagonal matrix of branch phases.
+
+\paragraph{Step 3: the trace part is gauge.}
+Any diagonal $2\times2$ unitary splits into its trace and traceless pieces,
+\begin{equation}
+D(\phi)=e^{i\bar k\phi}\,e^{-i\frac{\Delta}{2}\sigma_z\phi},\qquad
+\bar k=\frac{k_0+k_1}{2},\qquad \Delta=k_1-k_0 ,
+\end{equation}
+and the scalar $e^{i\bar k\phi}\mathbb 1$ cancels identically in
+$D^\dagger\rho D$. What remains is Eq.~\eqref{eq:isospectral} with
+$\omega_s=k_1^{(s)}-k_0^{(s)}$.
+
+\paragraph{Why $\sigma_z$, and why $\Delta$.}
+$\sigma_z$ because the cycle is the free evolution and therefore \emph{does not
+mix the branches} --- each is an eigensector of the addition index --- so its
+generator is diagonal in the branch labels, and a diagonal Hermitian
+$2\times2$ matrix has only the two pieces $a_0\mathbb 1+a_z\sigma_z$. And
+$\Delta$ rather than $n$ because $\rho$ is blind to $\mathbb 1$: the mean
+$\bar k$ does not vanish from the problem, it reappears in the \emph{Berry}
+phase of the global pure state, $\Phi_B/2\pi=\langle\nop_A+\nop_B\rangle$,
+which is sensitive to the overall phase. Mixed-state geometry of a reduced
+state sees only the difference. Reading off the branch pairs of each mode gives
+the winding numbers quoted in Sec.~\ref{sec:model}:
+\begin{center}
+\begin{tabular}{lccrr}
+\toprule
+family & branches of $A$ & branches of $B$ & $\omega_A$ & $\omega_B$\\
+\midrule
+branch-correlated & $(m,n)$ & $(m,n)$ & $+\Delta$ & $+\Delta$\\
+crossed & $(m,n)$ & $(n,m)$ & $+\Delta$ & $-\Delta$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The exact antisymmetry \eqref{eq:antisym} of the crossed family originates
+precisely in that reversal of order: $k_1-k_0=m-n=-\Delta$.
+
+\paragraph{The frame is part of the statement.}
+The winding $\omega_s$ is not a property of the path $\phi\mapsto\rho_s(\phi)$
+alone; it is a property of that path \emph{together with} the frame
+\eqref{eq:comoving}. Transport the basis with the bare physical unitary,
+$\ket{j(\phi)}=e^{-i\nop\phi}\ket{j}$, and the matrix of $\rho_s$ is
+\emph{constant}: no winding and no holonomy at all. The co-moving frame is the
+one that pins the coherent amplitude and lets the relative branch phase run,
+and it is the natural choice for the reduced geometry. It is also exactly the
+distinction that reappears in Sec.~\ref{sec:interf}: the laboratory
+interferometric phase uses the bare phase shifter $e^{-i\nop_s\phi}$, the
+logical one uses Eq.~\eqref{eq:comoving}, and the two differ by the offset
+$\pi\Tr\mathcal N_s$.
+
+Equations \eqref{eq:comoving}--\eqref{eq:D} are checked directly against the
+exact truncated-Fock reduced states: the $2\times2$ block reproduces
+$[\,[1-p,\;c_0e^{i\omega\phi}],[c_0e^{-i\omega\phi},\;p]\,]$ to
+$9\times10^{-16}$, with the winding recovered as $+2,+2$ (correlated) and
+$+3,-3$ (crossed), Table~\ref{tab:validation}.
 
 \subsection{The parallel-transport condition}
 
@@ -1210,6 +1308,7 @@ $\mathbb{Z}_2$ reduction on $p=1/2$, Eq.~\eqref{eq:Z2} & $\mathrm{Im}\,Z_U$ & $0
 Stable overlap \eqref{eq:overlap-stable} (Kummer) & Fock, up to $\alpha=60$ & $4\times10^{-15}$\\
 $\Delta=8$ nodes, Table~\ref{tab:many} & $p$, $b$, $|Z_U|$ at each node & $5\times10^{-14}$\\
 \midrule
+Co-moving frame, Eqs.~\eqref{eq:comoving}--\eqref{eq:D} & Exact Fock $\rho_s(\phi)$, $2\times2$ block & $9\times10^{-16}$\\
 $Z^{\rm int}_s$ lab, Eq.~\eqref{eq:int-lab} & Eq.~\eqref{eq:int-lab-closed} & $4\times10^{-14}$\\
 Witness \eqref{eq:witness} & Exact $C$, Eq.~\eqref{eq:concurrence} & $3\times10^{-14}$\\
 $Z^{\rm int}_s$ log, Eq.~\eqref{eq:int-log} & Definition \eqref{eq:sjoqvist}, discretized & $3\times10^{-6}$\\
